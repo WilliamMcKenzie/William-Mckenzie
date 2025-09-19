@@ -41,6 +41,41 @@
                 <li>An effect gives the enemy a buff, in most contexts it is invincibility to allow the enemy to talk or something.</li>
                 <li>Lastly summoning, which summons a given type of enemy at a given location relative to the parent enemy.</li>
             </ul>
+            An example of a phase might look like this:
+            <pre><code>
+            "phases" : [
+                {
+                    "duration" : 5,
+                    "health" : [0,100],
+                    "attack_pattern" : [
+                        {
+                            "projectile" : "CannonBall",
+                            "formula" : "0",
+                            "damage" : 100,
+                            "piercing" : true,
+                            "wait" : 8,
+                            "speed" : 6,
+                            "tile_range" : 8,
+                            "targeter" : "nearest",
+                            "direction" : Vector2(0,0),
+                            "size" : 5
+                        }
+                    ]
+                },
+                {
+                    "duration" : 2,
+                    "max_uses" : 1,
+                    "health" : [0,100],
+                    "attack_pattern" : [
+                        {
+                            "summon" : "goblin_warrior",
+                            "summon_position" : Vector2(-10,5),
+                            "wait" : 600000,
+                        },
+                    ]
+                },
+            ]
+            </code></pre>
             For dungeon generation, we generated each room in a grid, branching out from the starting room, each room further away with a higher chance of being the boss room. This system makes sure there is no overlap in rooms, while still keeping a bit of randomness since each of the 4 directions can branch of in an infinite number of directions. That being said most of the high level dungeons have a pre set arena, to make sure there is no unfairness in the fight since stakes are so high. Rewarding game knowledge was the #1 focus when making Kingdom Crushers, despite being permadeath we want to make sure if you are good enough you could guarentee your survival.
             <br/> 
         </p>

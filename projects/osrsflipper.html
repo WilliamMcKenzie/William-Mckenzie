@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
+    <title>William McKenzie</title>
+</head>
+<body>
+    <div class="top">
+        <h1>OSRS Flipper</h1>
+        <div>
+            <a href="https://github.com/WilliamMcKenzie/OSRS-Flipper">Github</a>
+        </div>
+        <p>A market manipulating bot for old school runescape, utilizing their public market API</p>
+        Tools:
+        <ul>
+            <li>Java</li>
+            <li>Python</li>
+            <li>Dreambot</li>
+            <li>OSRS API</li>
+        </ul>
+        <p>
+            OSRS Flipper consists of Dreambot client(s) and a python server, which uses the past price trends and common data about items to know when it's good time to buy. It factors in elements like the volume of the item, the past price points, and volatility when finding good "flips" (items to be bought/sold for a profit). 
+            <br/><br/>
+            <h1>Grand Exchange</h1>
+            To understand how this works you first need to understand the grand exchange, Runescape's market which allows you to buy and sell items to other players. If a player wants to sell their item, they can input a price or let Runscape automatically fill in the price as something which will instantly sell (depending on the volume, eg. how often the item is traded). For an order to be fulfilled their needs to be both a buyer and a seller, say in the example where I want to sell an item for 1B gold (~$500CAD), I put in the sell offer and currently their are no buyers. If a buyer comes in for 999M, their will still be no sale and the buyers offer will stay until someone is willing to meet their price. However if a buyer offers 1.1B, the sale will take place for 1B since it always goes to the sellers price (hence why you can't buy an item for less then it is being sold for). This is where the idea of flipping comes in, there is always a "gap" between the buy offers and sell offers (otherwise a sale would go through), and sometimes this gap is large. What we want to do is take advantage of people trying to quickly buy items (overbidding to instantly buy), by buying for just more then the next person in line (so we get all of the people trying to sell their items quickly) then turning around and selling the same items for just a bit less then the next person again. If the gap between people trying to buy and sell is big enough, you can surpass the Grand Exchange tax of 2% (which was created to disincentivize this).
+            <br/><br/>
+            <h1>Algorithm</h1>
+            How do we find good flips? The main factors are volume, profit margins (gap between lowest sell offer and highest buy offer factoring in tax), and volatility (the variation between high and low price points in a given day, ties into volume but if an item is unpredictable buying it could be a hazard)
+            <br/>
+            The core of our item search looks like this:
+
+            <pre><code>
+            for item in items:
+                id = str(item["id"])
+                
+                if id in hourly and "limit" in item:
+                    h = hourly[id]
+                    l = latest[id]
+                    limit = item["limit"]
+                    
+                    if (total_volume := h["highPriceVolume"] + h["lowPriceVolume"]) > 25000 and (avgHigh := h["avgHighPrice"]):
+                        buy_price = l["low"] + 1
+                        sell_price = l["high"] - 1
+                        
+                        profit = (sell_price - buy_price - math.floor(sell_price * tax)) * limit
+                        
+                        # Make sure we will be able to sell it in the future by checking against the average sell price an hour back
+                        valid_sellability = avgHigh > sell_price
+                        
+                        if profit > 0 and valid_sellability:
+                            flips.append({
+                                "id" : id,
+                                "name" : item["name"],
+                                "profit" : profit,
+                                "limit" : limit,
+                                "members" : item["members"],
+                                "value" : profit / (buy_price  * limit),
+                                "buy" : buy_price,
+                                "sell" : sell_price
+                            })
+            </code></pre>
+        </p>
+    </div>
+</body>
+</html>

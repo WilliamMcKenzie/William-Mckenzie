@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
+    <title>William McKenzie</title>
+</head>
+<body>
+    <div class="top">
+        <h1>Lagso Evolution</h1>
+        <div>
+            <a href="https://lagso.com">Website</a>
+            <a href="https://github.com/WilliamMcKenzie/lagso_evolution">Github</a>
+        </div>
+        <p>Interactive evolution simulator using emojis and simple instructions.</p>
+        Tools:
+        <ul>
+            <li>Javascript</li>
+            <li>Python (For the proof of concept)</li>
+            <li>NextJS</li>
+            <li>DaisyUI</li>
+        </ul>
+        <p>
+            Lagso stands for learning and growing synthetic organisms, but mostly it was just a cool 5 letter .com domain. The idea behind this project, is each "creature" (which is represented by an arrow emoji) can move in a grid according to its "AI string", which is a string of letters that can be any length, made up of 4 possible instructions.
+            <ul>
+                <li>"m" stands for move, which moves the creature forward by 1 unit in the direction they are looking. If a creature is in the way, they stay in place.</li>
+                <li>"l" stands for left, which turns the creature to the left while staying in place.</li>
+                <li>"r" stands for right, which turns the creature to the right while staying in place.</li>
+                <li>"s" stands for sleep, which makes the unit wait 1 turn without moving or turning.</li>
+            </ul>
+            A creatures AI string loops over each instruction it is given, and when it gets to the end it simply returns to step 1. An example of an AI string would be "mmrs", in which the creatures behaviour would be to move forward twice, turn right, then pause before repeating (Assuming an open map this creature would go in circles). Each instruction expends energy, by default moving expends 10, turning expends 5, and sleeping expends 3. These values can all be customized on the website. Aside from this, you can also customize the energy required for a unit to reproduce. A unit reproduces when it achieves a certain level of energy after moving, the child gets spawned on the tile where the parent moved from and the energy is split between the two creatures. Creatures gain energy by eating fruit which is spawned randomly around the map, a fruit is also spawned when a creature dies (energy goes to 0).
+            <br/><br/>
+            The interactive component is what makes Lagso fun, you can spawn in your own creatures food and ground tiles, as well as customizing the size of the map. Different creatures prevail in different map sizes, for example in a long skinny map (say 5x30 tiles) a creature which traverses up and down would prevail while in a open map (say 50x50 tiles) a creature which moves 2 tiles before turning left would be better suited. The more dense the population (and food supplies) the more effective it is to sleep, as other creatures expend their energy while the sleeping creature waits for them to die. To get one species (AI string) to really dominate, you need to customize the settings to have a higher reproductive energy and bigger map (prevent overcrowding, reward strategy), as well as a lower AI complexity so the creatures mutate less.
+        </p>
+    </div>
+</body>
+</html>
