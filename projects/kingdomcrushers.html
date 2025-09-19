@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
+    <title>William McKenzie</title>
+</head>
+<body>
+    <div class="top">
+        <h1>Kingdom Crushers</h1>
+        <div>
+            <a href="https://play.google.com/store/apps/details?id=com.williamqm.mmorelam&ref=producthunt">Google Play</a>
+            <a href="https://williamqm.itch.io/kingdom-crushers-mmo">Itch.io</a>
+            <a href="https://kingdomcrushers.io">Website</a>
+            <a href="https://wiki.kingdomcrushers.io">Wiki</a>
+        </div>
+        <p>A cross platform MMO inspired by games like ROTMG and Darza's Dominion</p>
+        Tools:
+        <ul>
+            <li>Godot</li>
+            <li>Supabase</li>
+            <li>NextJS</li>
+            <li>Stripe</li>
+            <li>Digital Ocean</li>
+        </ul>
+        <p>
+            Kingdom Crushers is a open world MMORPG, which can run on web android IOS Windows and Mac (Thanks to Godot). It uses 3 server architecture, that being the "auth" "gateway" and "game" servers, which each function to add a layer of safety.
+            <br/><br/>
+            <h1>Architecture</h1>
+            The client communicates with the gateway server, which then in turn passes the request along to the auth server which is in contact with the database. This prevents the user from ever having the chance to do anything nefarious like try and send data directly to the auth server and break the database. The game server(s) is where the action is actually happening, where enemies are running around and projectile collisions are being handled. To access the game server, the player must first recieve a token from the gateway server confirming the login session. Simultaneously, the auth server sends a token to the game server to verify that the player is indeed logged in. If the player tries to play the game and the tokens don't match, they are kicked out immedietly. Even after verifying the player is logged in, we are exposed to risk via the player being in direct connection to the game server, that is why we don't ever actually update the database from the game server. Rather we send a package to the auth server to update it, adding a layer of safety.
+            <br/><br/>
+            <h1>Content</h1>
+            The content is all data, Json if you will, or really godot dictionaries since it is easier that way. Of course all the items are data, given attributes like their stats damage projectiles and names, but enemies are also entirely data. If we want to summon a "rat", it is as simple as looking through our enemy data and finding the corresponding enemy. Enemies are stored similarily to items, with their names health and speed, but what about their movements? Their attacks? <br/> Firstly we decided to modularize the behaviours, breaking them down into 4 general types: stationary (0), wandering (1), chasing (2), and orbiting (3). If the enemy is given behaviour 0, we skip it's movement each tick. If it given behaviour 1, it picks an arbitrary point in a 3 tile radius to move towards, and then picks another once it has reached it's destination. Behaviours 2 and 3 are more interesting, every enemy has a "target", which is usually the nearest player. Behaviour 2 chases after the target at it's set speed, while behaviour 3 orbits around it's target continually, even when the target is moving. However in Kingdom Crushers we explored a variety of ways to use our targetting system, such as setting the target to an enemies parent (the enemy which spawned it in). Such is the case in the Cloud Island's boss Pohaku, who spawns 3 rotating pillars which make hitting him difficult.
+            <br/> How about their attacking patterns? Each enemy has a property "Phases", which are the attacking phases it can switch between. Each phase is given a duration, and once that duration is up the enemy looks for a new phase to switch too, if there is no new phase it just keeps looping the same one. Each phase also has conditions that must be met, these can include health intervals (must be full health : [100, 100], must be half health or less : [50, 0], etc.) or signals (signals can be given from one enemy to another as a part of their attack, ex. boss gives all their minions a signal which allows them to enter a special phase). Phases can change the base enemies stats, such as increasing their speed during a phase or changing their behaviour. The bread and butter of a phase is the pattern, which is the attack cycle that it loops over for it's duration.
+            <br/> The pattern is an array of attacks, "attack" is used very loosely in this case since it can be either a projectile, a signal, a speech, an effect, or a summon, no matter which it is they all have a "wait" attribute which is how long before the enemy can move to the next element of the pattern.
+            <ul>
+                <li>A projectile means the enemy shoots a projectile, either at a target or directly forwards, with any amount of offset rotation.</li>
+                <li>A signal sends out the signal to a given type of enemy, it can be the closest one or all of them.</li>
+                <li>A speech allows the enemy to talk.</li>
+                <li>An effect gives the enemy a buff, in most contexts it is invincibility to allow the enemy to talk or something.</li>
+                <li>Lastly summoning, which summons a given type of enemy at a given location relative to the parent enemy.</li>
+            </ul>
+            For dungeon generation, we generated each room in a grid, branching out from the starting room, each room further away with a higher chance of being the boss room. This system makes sure there is no overlap in rooms, while still keeping a bit of randomness since each of the 4 directions can branch of in an infinite number of directions. That being said most of the high level dungeons have a pre set arena, to make sure there is no unfairness in the fight since stakes are so high. Rewarding game knowledge was the #1 focus when making Kingdom Crushers, despite being permadeath we want to make sure if you are good enough you could guarentee your survival.
+            <br/> 
+        </p>
+    </div>
+</body>
+</html>
