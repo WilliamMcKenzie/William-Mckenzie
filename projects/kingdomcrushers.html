@@ -25,7 +25,7 @@
             <li>Digital Ocean</li>
         </ul>
         <p>
-            Kingdom Crushers is a open world MMORPG, which can run on web android IOS Windows and Mac (Thanks to Godot). It uses 3 server architecture, that being the "auth" "gateway" and "game" servers, which each function to add a layer of safety.
+
             <br/><br/>
             <h1>Architecture</h1>
             The client communicates with the gateway server, which then in turn passes the request along to the auth server which is in contact with the database. This prevents the user from ever having the chance to do anything nefarious like try and send data directly to the auth server and break the database. The game server(s) is where the action is actually happening, where enemies are running around and projectile collisions are being handled. To access the game server, the player must first recieve a token from the gateway server confirming the login session. Simultaneously, the auth server sends a token to the game server to verify that the player is indeed logged in. If the player tries to play the game and the tokens don't match, they are kicked out immedietly. Even after verifying the player is logged in, we are exposed to risk via the player being in direct connection to the game server, that is why we don't ever actually update the database from the game server. Rather we send a package to the auth server to update it, adding a layer of safety.
