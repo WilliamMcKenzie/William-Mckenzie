@@ -9,24 +9,24 @@
 <body>
     <div class="top">
         <h1>Kingdom Crushers</h1>
-        <div>
+        <div class="links">
             <a href="https://play.google.com/store/apps/details?id=com.williamqm.mmorelam&ref=producthunt">Google Play</a>
             <a href="https://williamqm.itch.io/kingdom-crushers-mmo">Itch.io</a>
             <a href="https://kingdomcrushers.io">Website</a>
             <a href="https://wiki.kingdomcrushers.io">Wiki</a>
         </div>
-        <p>A cross platform MMO inspired by games like ROTMG and Darza's Dominion</p>
+        <p>A cross platform MMO inspired by games like ROTMG and Darza's Dominion.</p>
         Tools:
         <ul>
             <li>Godot</li>
             <li>Supabase</li>
             <li>NextJS</li>
+            <li>Golang</li>
+            <li>AWS</li>
             <li>Stripe</li>
             <li>Digital Ocean</li>
         </ul>
         <p>
-
-            <br/><br/>
             <h1>Architecture</h1>
             The client communicates with the gateway server, which then in turn passes the request along to the auth server which is in contact with the database. This prevents the user from ever having the chance to do anything nefarious like try and send data directly to the auth server and break the database. The game server(s) is where the action is actually happening, where enemies are running around and projectile collisions are being handled. To access the game server, the player must first recieve a token from the gateway server confirming the login session. Simultaneously, the auth server sends a token to the game server to verify that the player is indeed logged in. If the player tries to play the game and the tokens don't match, they are kicked out immedietly. Even after verifying the player is logged in, we are exposed to risk via the player being in direct connection to the game server, that is why we don't ever actually update the database from the game server. Rather we send a package to the auth server to update it, adding a layer of safety.
             <br/><br/>
@@ -43,38 +43,38 @@
             </ul>
             An example of a phase might look like this:
             <pre><code>
-            "phases" : [
+    "phases" : [
+        {
+            "duration" : 5,
+            "health" : [0,100],
+            "attack_pattern" : [
                 {
-                    "duration" : 5,
-                    "health" : [0,100],
-                    "attack_pattern" : [
-                        {
-                            "projectile" : "CannonBall",
-                            "formula" : "0",
-                            "damage" : 100,
-                            "piercing" : true,
-                            "wait" : 8,
-                            "speed" : 6,
-                            "tile_range" : 8,
-                            "targeter" : "nearest",
-                            "direction" : Vector2(0,0),
-                            "size" : 5
-                        }
-                    ]
-                },
+                    "projectile" : "CannonBall",
+                    "formula" : "0",
+                    "damage" : 100,
+                    "piercing" : true,
+                    "wait" : 8,
+                    "speed" : 6,
+                    "tile_range" : 8,
+                    "targeter" : "nearest",
+                    "direction" : Vector2(0,0),
+                    "size" : 5
+                }
+            ]
+        },
+        {
+            "duration" : 2,
+            "max_uses" : 1,
+            "health" : [0,100],
+            "attack_pattern" : [
                 {
-                    "duration" : 2,
-                    "max_uses" : 1,
-                    "health" : [0,100],
-                    "attack_pattern" : [
-                        {
-                            "summon" : "goblin_warrior",
-                            "summon_position" : Vector2(-10,5),
-                            "wait" : 600000,
-                        },
-                    ]
+                    "summon" : "goblin_warrior",
+                    "summon_position" : Vector2(-10,5),
+                    "wait" : 600000,
                 },
             ]
+        },
+    ]
             </code></pre>
             For dungeon generation, we generated each room in a grid, branching out from the starting room, each room further away with a higher chance of being the boss room. This system makes sure there is no overlap in rooms, while still keeping a bit of randomness since each of the 4 directions can branch of in an infinite number of directions. That being said most of the high level dungeons have a pre set arena, to make sure there is no unfairness in the fight since stakes are so high. Rewarding game knowledge was the #1 focus when making Kingdom Crushers, despite being permadeath we want to make sure if you are good enough you could guarentee your survival.
             <br/> 

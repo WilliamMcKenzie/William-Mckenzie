@@ -9,7 +9,7 @@
 <body>
     <div class="top">
         <h1>OSRS Flipper</h1>
-        <div>
+        <div class="links">
             <a href="https://github.com/WilliamMcKenzie/OSRS-Flipper">Github</a>
         </div>
         <p>A market manipulating bot for old school runescape, utilizing their public market API</p>
@@ -32,34 +32,34 @@
             The core of our item search looks like this:
 
             <pre><code>
-            for item in items:
-                id = str(item["id"])
+    for item in items:
+        id = str(item["id"])
+        
+        if id in hourly and "limit" in item:
+            h = hourly[id]
+            l = latest[id]
+            limit = item["limit"]
+            
+            if (total_volume := h["highPriceVolume"] + h["lowPriceVolume"]) > 25000 and (avgHigh := h["avgHighPrice"]):
+                buy_price = l["low"] + 1
+                sell_price = l["high"] - 1
                 
-                if id in hourly and "limit" in item:
-                    h = hourly[id]
-                    l = latest[id]
-                    limit = item["limit"]
-                    
-                    if (total_volume := h["highPriceVolume"] + h["lowPriceVolume"]) > 25000 and (avgHigh := h["avgHighPrice"]):
-                        buy_price = l["low"] + 1
-                        sell_price = l["high"] - 1
-                        
-                        profit = (sell_price - buy_price - math.floor(sell_price * tax)) * limit
-                        
-                        # Make sure we will be able to sell it in the future by checking against the average sell price an hour back
-                        valid_sellability = avgHigh > sell_price
-                        
-                        if profit > 0 and valid_sellability:
-                            flips.append({
-                                "id" : id,
-                                "name" : item["name"],
-                                "profit" : profit,
-                                "limit" : limit,
-                                "members" : item["members"],
-                                "value" : profit / (buy_price  * limit),
-                                "buy" : buy_price,
-                                "sell" : sell_price
-                            })
+                profit = (sell_price - buy_price - math.floor(sell_price * tax)) * limit
+                
+                # Make sure we will be able to sell it in the future by checking against the average sell price an hour back
+                valid_sellability = avgHigh > sell_price
+                
+                if profit > 0 and valid_sellability:
+                    flips.append({
+                        "id" : id,
+                        "name" : item["name"],
+                        "profit" : profit,
+                        "limit" : limit,
+                        "members" : item["members"],
+                        "value" : profit / (buy_price  * limit),
+                        "buy" : buy_price,
+                        "sell" : sell_price
+                    })
             </code></pre>
         </p>
     </div>
