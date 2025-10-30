@@ -14,16 +14,54 @@
             <a href="https://github.com/WilliamMcKenzie/QuizGenerator">Github</a>
             <a href="https://www.producthunt.com/products/quizzgen?utm_source=badge-follow&utm_medium=badge&utm_source=badge-quizzgen">Product Hunt</a>
         </div>
-        <p>Quiz generating website, using Groq Cloud's AI.</p>
+        <p>Interactive quiz generating website.</p>
         Tools:
         <ul>
             <li>NextJS</li>
-            <li>Groq Cloud</li>
-            <li>NextAuth/OAuth</li>
+            <li>MongoDB</li>
+            <li>Groq</li>
+            <li>NextAuth</li>
             <li>DaisyUI</li>
         </ul>
         <p>
-            Quizzgen was made as my CS50 final project, but I saw potential to make it much cooler and expand my idea. After tweaking the design and prompts I ended up with speedy and high quality quizzes at the click of a button. The idea was originally to learn new concepts using the same approach as Duolingo, but I realized that was kind of stupid as learning a language is largely about pattern recognition while learning other topics has more nuance. So I pivoted to turn it into a pure quiz generator, to test yourself on knowledge and add in sharing features to bring a community aspect.
+            Quizzgen is a quick clean quiz generating website, inspired by the UI of Duolingo. You simply type in a prompt, then make a call to the Groq API which spins up some JSON with the following schema.
+            <pre>
+                <code>
+    const quiz_schema = jsonSchema({
+        type: 'object',
+        properties: {
+            quiz_name: { type: 'string' },
+            content: {
+            type: 'array',
+            items: {
+                type: 'object',
+                properties: {
+                name: { type: 'string' },
+                questions: {
+                    type: 'array',
+                    items: {
+                    type: 'object',
+                    properties: {
+                        question: { type: 'string' },
+                        responses: {
+                        type: 'array',
+                        items: { type: 'string' },
+                        },
+                        correct_index: { type: 'integer' },
+                    },
+                    required: ['question', 'responses', 'correct_index'],
+                    },
+                },
+                },
+                required: ['name', 'questions'],
+            },
+            },
+        },
+        required: ['quiz_name', 'content'],
+    })
+                </code>
+            </pre>
+            After it's done generating, the JSON gets stored the quizzes table in MongoDB with a unique code, and the code gets returned to the user who generated it. Then the frontend goes to ./quiz/{code} and the JSON gets fetched from the database according to the unique code. This makes it shareable and repeatable, so instead of just sending back the quiz to the frontend we A) don't burden the network with sending hundreds of lines of JSON and B) allow anyone to play any quiz by simply typing in the code. Each quiz keeps a leaderboard which shows who has the best score, and users can visit past quizzes at ./quiz.
         </p>
     </div>
 </body>
