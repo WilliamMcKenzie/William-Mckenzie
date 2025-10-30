@@ -61,7 +61,7 @@
     })
                 </code>
             </pre>
-            After it's done generating, the JSON gets stored the quizzes table in MongoDB with a unique code, and the code gets returned to the user who generated it. Then the frontend goes to ./quiz/{code} and the JSON gets fetched from the database according to the unique code. This makes it shareable and repeatable, so instead of just sending back the quiz to the frontend we A) don't burden the network with sending hundreds of lines of JSON and B) allow anyone to play any quiz by simply typing in the code. Each quiz keeps a leaderboard which shows who has the best score, and users can visit past quizzes at ./quiz.
+            After it's done generating, the JSON gets stored in the quizzes table in MongoDB with a unique code property, and the code gets returned to the user who generated it. Then the frontend goes to ./quiz/{code} and the quiz JSON gets fetched from the database according to the unique code. This makes it shareable and repeatable, so instead of just sending back the quiz to the frontend we A) don't burden the network with sending hundreds of lines of JSON and B) allow anyone to play any quiz by simply typing in the code. Each quiz keeps a leaderboard which shows who has the best score, and users can visit past quizzes at ./quiz.
         </p>
     </div>
 </body>
