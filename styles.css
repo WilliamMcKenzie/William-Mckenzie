@@ -10,6 +10,7 @@
 
 html {
   margin: 0 16px;
+  margin-top: 1rem;
   background: url("./noise.png") repeat scroll left top;
   overflow-x: hidden;
 }
@@ -25,6 +26,10 @@ body {
   line-height: 1.6;
 }
 
+.visible {
+  display: block !important;
+}
+
 .links {
   position: absolute;
   top: 16px;
@@ -33,6 +38,18 @@ body {
 
 .links a {
   margin: 2px;
+}
+
+.nav {
+  display: flex;
+  position: absolute;
+  top: 16px;
+  left: 16px;
+}
+
+.nav a {
+  margin: 0;
+  padding: 0;
 }
 
 .top {
@@ -89,5 +106,14 @@ a:hover {
     margin-right: auto;
     top: 0;
     right: 0;
+  }
+
+  .nav {
+    position: relative;
+    margin-left: auto;
+    margin-right: auto;
+    top: 0;
+    left: 0;
+    display: none;
   }
 }
