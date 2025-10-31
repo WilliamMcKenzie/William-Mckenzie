@@ -9,9 +9,10 @@
 }
 
 html {
-  margin: 0 16px;
+  margin: 0 32px;
   margin-top: 1rem;
   background: url("./noise.png") repeat scroll left top;
+  background-color: #f3f2e8;
   overflow-x: hidden;
 }
 
@@ -69,14 +70,14 @@ body {
 }
 
 pre {
-  background-color: #EEEEEE;
+  background-color: #e9e7dc;
   overflow-x: scroll;
 }
 
 h1 {
   font-family: Bold;
   text-align: center;
-  border-bottom: 1px #e3e3e3 dashed;
+  border-bottom: 1px #cfccba dashed;
 }
 
 h2 {
@@ -89,14 +90,14 @@ h2 {
 }
 
 a {
-  color: #1863A1;
+  color: #457b9d;
   margin-top: 0.2rem;
 }
 a:visited {
-  color:#1863A1;
+  color:#457b9d;
 }
 a:hover {
-  color: #1e85d9;
+  color: #e07a5f;
 }
 
 @media only screen and (max-width: 900px) {
