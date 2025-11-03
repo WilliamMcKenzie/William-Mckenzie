@@ -3,7 +3,7 @@ html {
   margin: 10px auto;
   
   background: url("./noise.png") repeat scroll left top;
-  background-color: #fffdfc;
+  background-color: #ffffff;
   font-family: sans-serif;
   font-size: medium;
   color: #444;
@@ -40,7 +40,7 @@ body {
   width: 100vw;
   top: 0;
   background: url("./noise.png") repeat scroll left top;
-  background-color: #f4f4f4;
+  background-color: #ffffff;
 }
 
 .nav div {
@@ -48,7 +48,7 @@ body {
   display: flex;
   align-items: flex-start;
   padding: 1rem 0;
-  pointer-events: all
+  pointer-events: all;
 }
 
 h1 {
