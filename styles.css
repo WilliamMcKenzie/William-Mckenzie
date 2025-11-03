@@ -80,7 +80,8 @@ main div {
 }
 
 pre {
-  background-color: #f0efee;
+  background: url("./noise.png") repeat scroll left top;
+  background-color: #f4f4f4;
   padding: 1rem;
   overflow-x: scroll;
 }
