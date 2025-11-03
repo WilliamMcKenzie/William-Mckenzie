@@ -7,20 +7,27 @@
     <title>William McKenzie</title>
 </head>
 <body>
-    <div class="top">
-        <h1>Quizzgen</h1>
-        <div class="links">
-            <a href="https://www.quizzgen.com/">Website</a>
-            <a href="https://github.com/WilliamMcKenzie/QuizGenerator">Github</a>
-            <a href="https://www.producthunt.com/products/quizzgen?utm_source=badge-follow&utm_medium=badge&utm_source=badge-quizzgen">Product Hunt</a>
-        </div>
+    <div class="nav-box">
         <div class="nav">
-            <a href="../">Home</a>
-            <a href="../projects">/projects</a>
-            <a href="">/quiz</a>
+            <div>
+                <h2>William McKenzie</h2>
+                <links>
+                    <a class="spaced" href="../">About</a>
+                    <a class="spaced" href="../writing">Writing</a>
+                </links>
+            </div>
         </div>
+    </div>
+    <div>
+        <h1>Quizzgen</h1>
         <p>Interactive quiz generating website.</p>
-        Tools:
+        <div>
+            <a class="spaced" href="https://www.quizzgen.com/">Website</a>
+            <a class="spaced" href="https://github.com/WilliamMcKenzie/QuizGenerator">Github</a>
+            <a class="spaced" href="https://www.producthunt.com/products/quizzgen?utm_source=badge-follow&utm_medium=badge&utm_source=badge-quizzgen">Product Hunt</a>
+        </div>
+        <br>
+        Tools
         <ul>
             <li>NextJS</li>
             <li>MongoDB</li>
@@ -66,7 +73,10 @@
     })
                 </code>
             </pre>
-            After it's done generating, the JSON gets stored in the quizzes table in MongoDB with a unique code property, and the code gets returned to the user who generated it. Then the frontend goes to ./quiz/{code} and the quiz JSON gets fetched from the database according to the unique code. This makes it shareable and repeatable, so instead of just sending back the quiz to the frontend we A) don't burden the network with sending hundreds of lines of JSON and B) allow anyone to play any quiz by simply typing in the code. Each quiz keeps a leaderboard which shows who has the best score, and users can visit past quizzes at ./quiz.
+            After it's done generating, the JSON gets stored in the quizzes table in MongoDB with a unique code property, and the code gets returned to the user who generated it. Then the frontend goes to ./quiz/{code} and the quiz JSON gets fetched from the database according to the unique code.
+            <br>
+            <br>
+            This makes it shareable and repeatable, so instead of just sending back the quiz to the frontend we A) don't burden the network with sending hundreds of lines of JSON and B) allow anyone to play any quiz by simply typing in the code. Each quiz keeps a leaderboard which shows who has the best score, and users can visit past quizzes at ./quiz.
         </p>
     </div>
 </body>
