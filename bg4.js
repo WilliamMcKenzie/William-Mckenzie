@@ -47,7 +47,7 @@ function animate() {
 
     for (let i = 0; i < canvas.width; i += 1) {
         const scale = Math.abs(scaleFactor - i)
-
+        
         ctx.fillRect(pixellate(i), renderPoint(i * 100) + heightOffset, pixel, pixel)
         ctx.fillRect(pixellate(i), renderPoint(i * 100) - scale + heightOffset, pixel, pixel)
         ctx.fillRect(pixellate(i), scale + renderPoint(i * 100) + heightOffset, pixel, pixel)

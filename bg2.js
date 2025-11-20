@@ -1,7 +1,7 @@
 const html = document.querySelector('html')
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
-html.style.background = "#3C6A79"
+html.style.backgroundColor = "#027D9C"
 
 resizeCanvas()
 
@@ -19,22 +19,6 @@ function renderPoint(x) {
     return 8 * Math.round((base * size) / 8)
 } 
 
-
-function noise() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-    const heightOffset = Math.round(window.innerHeight / 2)
-    const widthOffset = Math.round(window.innerWidth / 2)
-
-    for (let x = -1000; x < 1000; x += 8) {
-        for (let y = -1000; y < 1000; y += 8) {
-            const opacity = (800 - (Math.abs(x) + Math.abs(y))) / 1000
-            ctx.fillStyle = `rgba(255, 255, 255, ${opacity + (Math.random() / 10)})`
-            ctx.fillRect(x + widthOffset, y + heightOffset, pixel, pixel)
-        }
-    }
-    setTimeout(noise, 50)
-}
-
 function animate() {
     offset += frequency / 80
     size = Math.sin(offset) * Math.pow(pixel, 2)
@@ -48,9 +32,23 @@ function animate() {
     for (let i = 0; i < canvas.width; i += 1) {
         const scale = Math.abs(scaleFactor - i)
 
+        // ctx.fillStyle = "rgba(255, 255, 255, 1)"
+        // ctx.fillRect(renderPoint(i * 1) + widthOffset - 512, pixellate(i), pixel, pixel)
+        // ctx.fillRect(renderPoint(i * 1) + widthOffset + 512, pixellate(i), pixel, pixel)
+
+        // ctx.fillStyle = "rgba(255, 255, 255, 0.1)"
         ctx.fillRect(pixellate(i), renderPoint(i * 100) + heightOffset, pixel, pixel)
         ctx.fillRect(pixellate(i), renderPoint(i * 100) - scale + heightOffset, pixel, pixel)
         ctx.fillRect(pixellate(i), scale + renderPoint(i * 100) + heightOffset, pixel, pixel)
+    }
+
+    for (let x = -500; x < 500; x += 8) {
+        const opacityX = (400 -  Math.abs(x)) / 100
+        for (let y = -400; y < 500; y += 8) {
+            const opacityY = (350 -  Math.abs(y)) / 100
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(opacityX, opacityY)})`
+            ctx.fillRect(x + widthOffset, y + heightOffset + 50, pixel, pixel)
+        }
     }
 
     requestAnimationFrame(animate)
