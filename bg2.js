@@ -42,14 +42,14 @@ function animate() {
         ctx.fillRect(pixellate(i), scale + renderPoint(i * 100) + heightOffset, pixel, pixel)
     }
 
-    for (let x = -500; x < 500; x += 8) {
-        const opacityX = (400 -  Math.abs(x)) / 100
-        for (let y = -400; y < 500; y += 8) {
-            const opacityY = (350 -  Math.abs(y)) / 100
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(opacityX, opacityY)})`
-            ctx.fillRect(x + widthOffset, y + heightOffset + 50, pixel, pixel)
-        }
-    }
+    // for (let x = -500; x < 500; x += 8) {
+    //     const opacityX = (400 -  Math.abs(x)) / 100
+    //     for (let y = -400; y < 500; y += 8) {
+    //         const opacityY = (350 -  Math.abs(y)) / 100
+    //         ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(opacityX, opacityY)})`
+    //         ctx.fillRect(x + widthOffset, y + heightOffset + 50, pixel, pixel)
+    //     }
+    // }
 
     requestAnimationFrame(animate)
 }
