@@ -1,11 +1,11 @@
 @font-face {
   font-family: Main;
-  src: url("cmunbx.ttf");
+  src: url("cmunrmd.ttf");
 }
 
 @font-face {
   font-family: Bold;
-  src: url("cmunbi.ttf");
+  src: url("cmunbx.ttf");
 }
 
 html {
@@ -17,11 +17,12 @@ html {
   color: #666;
   line-height: 1.6;
   overflow-x: hidden;
+  font-family: Main;
 }
 
 body {
   height: 100%;
-  padding: 16px;
+  padding: 2rem;
   margin-top: 8rem;
   background: url("./noise.png") repeat scroll left top;
   background-color: #fff;
@@ -73,7 +74,7 @@ canvas {
 h1 {
   color: #444;
   font-size: large;
-  font-family: Main;
+  font-family: Bold;
   margin-bottom: 1rem;
   border-bottom: 1px solid #e0e0e0;
 }
@@ -82,6 +83,7 @@ h2 {
   color: #444;
   font-size: x-large;
   font-family: Bold;
+  font-weight: bolder;
   margin: 0;
   margin-right: auto;
 }
