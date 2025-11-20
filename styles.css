@@ -1,21 +1,19 @@
 @font-face {
-  font-family: Inter;
-  src: url("font.ttf");
+  font-family: Main;
+  src: url("cmunbx.ttf");
 }
 
 @font-face {
-  font-family: InterBold;
-  src: url("semibold.ttf");
+  font-family: Bold;
+  src: url("cmunbi.ttf");
 }
 
 html {
   max-width: 736px;
   margin: 10px auto;
-  
+  font-size: medium;
   background: url("./noise.png") repeat scroll left top;
   background-color: #fff;
-  font-family: Inter;
-  font-size: medium;
   color: #666;
   line-height: 1.6;
   overflow-x: hidden;
@@ -23,8 +21,19 @@ html {
 
 body {
   height: 100%;
-  margin: 16px;
+  padding: 16px;
   margin-top: 8rem;
+  background: url("./noise.png") repeat scroll left top;
+  background-color: #fff;
+}
+
+canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background: url("./noise.png") repeat scroll left top;
+  background-color: #3C6A79;
 }
 
 .visible {
@@ -63,16 +72,16 @@ body {
 
 h1 {
   color: #444;
-  font-size: medium;
-  font-family: InterBold;
+  font-size: large;
+  font-family: Main;
   margin-bottom: 1rem;
-  margin-top: 3rem;
+  border-bottom: 1px solid #e0e0e0;
 }
 
 h2 {
   color: #444;
-  font-size: large;
-  font-family: InterBold;
+  font-size: x-large;
+  font-family: Bold;
   margin: 0;
   margin-right: auto;
 }
@@ -81,14 +90,8 @@ main div {
   margin-bottom: 5rem;
 }
 
-.project {
-  margin: 0;
-  display: flex;
-  align-items: flex-end;
-}
-
-.project em {
-  margin-right: 20px;
+.project a {
+  margin-left: 20px;
 }
 
 pre {
@@ -99,12 +102,12 @@ pre {
 }
 
 a {
-  color: #457b9d;
+  color: #458e9d;
   margin-top: 0.2rem;
   text-decoration: none;
 }
 a:visited {
-  color:#457b9d;
+  color:#458e9d;
 }
 a:hover {
   color: #e07a5f;
