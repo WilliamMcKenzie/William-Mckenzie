@@ -84,8 +84,9 @@
         html.style.background = "#3C6A79"
         resizeCanvas()
 
-        const size = 5
-        const white = "#fff"
+        const size = 6
+        const white = "#458e9d"
+
         let sentients = []
 
         class Creature {
@@ -117,6 +118,8 @@
 
                 ctx.fillStyle = color
                 ctx.fillRect(this.x - size, this.y - size, size, size)
+
+                return [this.x - size, this.y - size]
             }
         }
 
@@ -133,41 +136,64 @@
                 let x, y
                 x = Math.round(canvas.width / 2)
                 y = Math.round(canvas.height / 2)
-                xVel = getSign() * 5
-                yVel = getSign() * 5
+                xVel = getSign() * 6
+                yVel = getSign() * 6
                 sentients.push(new Creature(x, y, xVel, yVel, 8 * getModifier()))
             }
         }
-        makeSentient(8)
-        setTimeout(() => {
-            makeSentient(64)
-        }, 1500) 
-        setTimeout(() => {
-            makeSentient(128)
-        }, 3000) 
-        setTimeout(() => {
+
+        let frames = 0
+        var tiles = new Set()
+
+        function start() {
+            frames = 0
+            sentients = []
+            tiles = new Set()
             makeSentient(512)
-        }, 4500) 
+            animate()
+        }
+
+        function paintAllTiles(color) {
+            ctx.fillStyle = color
+            tiles.forEach((tile, _) => {
+                ctx.fillRect(tile[0], tile[1], size, size)
+            })
+        }
 
         function animate() {
+            frames += 1
             for (let i = 0; i < sentients.length; i++) {
                 sentients[i].update()
-                sentients[i].draw()
+                tiles.add(sentients[i].draw())
                 
                 if (sentients[i].x < 0 || sentients[i].x > canvas.width || sentients[i].y < 0 || sentients[i].y > canvas.height) {
                     sentients.splice(i, 1)
                     i--
                 }
             }
+
+            if (frames > 256) {
+                paintAllTiles("#fff")
+
+                setTimeout(() => paintAllTiles("#eee"), 100)
+
+                setTimeout(() => paintAllTiles("#ddd"), 200)
+
+                setTimeout(() => paintAllTiles("#74a8b3"), 300)
+                setTimeout(() => paintAllTiles("#458e9d"), 400)
+
+                return
+            }
             requestAnimationFrame(animate)
         }
-        animate()
 
         window.addEventListener('resize', resizeCanvas)
         function resizeCanvas() {
             canvas.width = window.innerWidth
             canvas.height = Math.max(html.clientHeight, html.scrollHeight, html.offsetHeight )
         }
+
+        start()
     </script>
 </body>
 </html>
