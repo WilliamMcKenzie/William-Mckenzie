@@ -57,7 +57,7 @@ function makeSentient(quantity) {
         y = Math.round(canvas.height / 2)
         xVel = getSign() * 6
         yVel = getSign() * 6
-        sentients.push(new Creature(x, y, xVel, yVel, 8 * getModifier()))
+        sentients.push(new Creature(x, y, xVel, yVel, 63 * getModifier()))
     }
 }
 

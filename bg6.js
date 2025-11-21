@@ -28,13 +28,13 @@ function pixellate(x) {
 
 function renderPoint(x) {
     let base = Math.sin((offset + x / 20))
+    base += Math.sin((offset + x / 20)) > 0 ? 1 : -1
     return stretchCoefficient2 * stretchCoefficient1 * 8 * Math.round((base * size) / 8)
 } 
 
 function animate() {
     offset += speedCoefficient * (frequency / 80)
     size = Math.sin(offset) * Math.pow(pixel, 2)
-    size += size > 0 ? 8 : -8
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     const heightOffset = Math.round(window.innerHeight / 2)

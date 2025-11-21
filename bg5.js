@@ -1,51 +1,39 @@
 const html = document.querySelector('html')
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
+html.style.backgroundColor = "#027D9C"
 
 resizeCanvas()
 
-const tealbg = "#027D9C"
-const orangbg = "#e07a5f"
 const pixel = 8
 const frequency = 4
-let fill = "rgba(255, 255, 255, 0.1)"
 let speedCoefficient = 1
-let stretchCoefficient1 = 1
-let stretchCoefficient2 = 1
+let stretchCoefficient = 1
 let offset = 0
 let size = 0
-
-changebg(tealbg)
-
-function changebg(color) {
-    html.style.backgroundColor = color
-    canvas.style.backgroundColor = color
-}
 
 function pixellate(x) {
     return pixel * Math.round(x / pixel)
 }
 
 function renderPoint(x) {
-    let base = Math.sin((offset + x / 20))
-    return stretchCoefficient2 * stretchCoefficient1 * 8 * Math.round((base * size) / 8)
+    const base = Math.sin((offset + x / 20))
+    return stretchCoefficient * 8 * Math.round((base * size) / 8)
 } 
 
 function animate() {
     offset += speedCoefficient * (frequency / 80)
     size = Math.sin(offset) * Math.pow(pixel, 2)
-    size += size > 0 ? 8 : -8
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     const heightOffset = Math.round(window.innerHeight / 2)
     const widthOffset = Math.round(window.innerWidth / 2)
     const scaleFactor = (canvas.width / 2)
-
-    ctx.fillStyle = fill
+    ctx.fillStyle = "rgba(255, 255, 255, 0.1)"
 
     for (let i = 0; i < canvas.width; i += 1) {
         const scale = scaleFactor - i
-        stretchCoefficient1 = (scaleFactor - i) / scaleFactor
+        stretchCoefficient = scaleFactor - i
 
         ctx.fillRect(pixellate(i), renderPoint(i * 100) + heightOffset, pixel, pixel)
         ctx.fillRect(pixellate(i), renderPoint(i * 100) - scale + heightOffset, pixel, pixel)
@@ -59,7 +47,7 @@ function animate() {
     //         ctx.fillRect(x + widthOffset, y + heightOffset, pixel, pixel)
     //     }
     // }
-    
+
     requestAnimationFrame(animate)
 }
 
@@ -75,28 +63,23 @@ const urls = document.querySelectorAll("a")
 
 for (url of urls) {
     url.addEventListener("mouseenter", (_) => {
-        changebg(orangbg)
-        fill = "rgba(2, 125, 156, 0.3)"
         setTimeout(() => {
-            stretchCoefficient2 = 1.25
+            stretchCoefficient = 1.25
             speedCoefficient = 1.25
             setTimeout(() => {
-                stretchCoefficient2 = 1.3
+                stretchCoefficient = 1.75
                 speedCoefficient = 1.5
             }, 50)
         }, 50)
     })
     url.addEventListener("mouseleave", (_) => {
-        changebg(tealbg)
-        fill = "rgba(255, 255, 255, 0.1)"
         setTimeout(() => {
-            stretchCoefficient2 = 1.25
+            stretchCoefficient = 1.25
             speedCoefficient = 1.25
             setTimeout(() => {
-                stretchCoefficient2 = 1
+                stretchCoefficient = 1
                 speedCoefficient = 1
             }, 50)
         }, 50)
     })
 }
-
