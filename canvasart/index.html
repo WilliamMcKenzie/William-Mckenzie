@@ -44,12 +44,16 @@
 
             <div class="sin_container">
                 <br>
+                <button onclick="stationary()">Default</button>
+                <button onclick="zoomedin()">Zoomed in</button>
+                <button onclick="zoomedout()">Zoomed out</button>
+                <button onclick="wierd()">Wierd</button>
                 <br>
                 <br>
                 <canvas class="canvas1"></canvas>
             </div>
             <pre><code>// Edit these values!
-const pixel = <input id="pixel1" type="number" value="3"/>
+const pixel = <input id="pixel1" type="number" value="4"/>
 const height = <input id="height1"  type="number" value="12"/>
 const period = <input id="period1"  type="number" value="12"/>
 const canvas = document.querySelector("canvas")
@@ -76,7 +80,7 @@ function animate() {
 animate()
             </code></pre>
             <script>
-                let pixel1 = 3
+                let pixel1 = 4
                 let height1 = 12
                 let period1 = 12
                 const canvas1 = document.querySelector(".canvas1")
@@ -117,6 +121,54 @@ animate()
                     period1 = parseInt(e.target.value)
                 })
 
+                function stationary() {
+                    pixelInput1.value = 4
+                    heightInput1.value = 12
+                    periodInput1.value = 12
+
+                    pixel1 = 4
+                    height1 = 12
+                    period1 = 12
+
+                    canvas1.height = 2.5 * height1
+                }
+
+                function zoomedin() {
+                    pixelInput1.value = 8
+                    heightInput1.value = 24
+                    periodInput1.value = 24
+
+                    pixel1 = 8
+                    height1 = 24
+                    period1 = 24
+
+                    canvas1.height = 2.5 * height1
+                }
+
+                function zoomedout() {
+                    pixelInput1.value = 2
+                    heightInput1.value = 6
+                    periodInput1.value = 6
+
+                    pixel1 = 2
+                    height1 = 6
+                    period1 = 6
+
+                    canvas1.height = 2.5 * height1
+                }
+
+                function wierd() {
+                    pixelInput1.value = 2
+                    heightInput1.value = 64
+                    periodInput1.value = 1
+
+                    pixel1 = 2
+                    height1 = 64
+                    period1 = 1
+
+                    canvas1.height = 2.5 * height1
+                }
+
                 canvas1.height = 2.5 * height1
                 animate1()
             </script>
@@ -147,13 +199,13 @@ animate()
                 <canvas class="canvas2"></canvas>
             </div>
             <pre><code>// Edit these values!
-const pixel = <input id="pixel2" type="number" value="3"/>
+const pixel = <input id="pixel2" type="number" value="4"/>
 const height = <input id="height2"  type="number" value="12"/>
 const period = <input id="period2"  type="number" value="12"/>
 const canvas = document.querySelector("canvas")
 const context = canvas.getContext('2d')
 
-const speed = <input id="speed2"  type="number" value="4"/>
+const speed = <input id="speed2"  type="number" value="3"/>
 let counter = 0
 
 function toPixel(x) {
@@ -179,14 +231,14 @@ function animate() {
 animate()
             </code></pre>
             <script>
-                let pixel2 = 3
+                let pixel2 = 4
                 let height2 = 12
                 let period2 = 12
                 let frequency2 = 1
                 const canvas2 = document.querySelector(".canvas2")
                 const context2 = canvas2.getContext('2d')
                 
-                let speed2 = 4
+                let speed2 = 3
                 let counter2 = 0
 
                 function toPixel2(x) {
@@ -230,15 +282,15 @@ animate()
                 })
 
                 function sinwave() {
-                    pixelInput2.value = 3
+                    pixelInput2.value = 4
                     heightInput2.value = 12
                     periodInput2.value = 12
-                    speedInput2.value = 4
+                    speedInput2.value = 3
 
-                    pixel2 = 3
+                    pixel2 = 4
                     height2 = 12
                     period2 = 12
-                    speed2 = 4
+                    speed2 = 3
 
                     canvas2.height = 2.5 * height2
                 }
@@ -314,13 +366,13 @@ animate()
                 <canvas class="canvas3"></canvas>
             </div>
             <pre><code>// Edit these values!
-const pixel = <input id="pixel3" type="number" value="3"/>
+const pixel = <input id="pixel3" type="number" value="4"/>
 const height = <input id="height3"  type="number" value="12"/>
 const period = <input id="period3"  type="number" value="12"/>
 const canvas = document.querySelector("canvas")
 const context = canvas.getContext('2d')
 
-const speed = <input id="speed3"  type="number" value="4"/>
+const speed = <input id="speed3"  type="number" value="3"/>
 let counter = 0
 
 const frequency = <input id="frequency3"  type="number" value="1"/>
@@ -348,14 +400,14 @@ function animate() {
 animate()
             </code></pre>
             <script>
-                let pixel3 = 3
+                let pixel3 = 4
                 let height3 = 12
                 let period3 = 12
                 let frequency3 = 1
                 const canvas3 = document.querySelector(".canvas3")
                 const context3 = canvas3.getContext('2d')
                 
-                let speed3 = 4
+                let speed3 = 3
                 let counter3 = 0
 
                 function toPixel3(x) {
@@ -403,16 +455,16 @@ animate()
                 })
 
                 function freakwave() {
-                    pixelInput3.value = 3
+                    pixelInput3.value = 4
                     heightInput3.value = 12
                     periodInput3.value = 12
-                    speedInput3.value = 4
+                    speedInput3.value = 3
                     frequencyInput3.value = 1
 
-                    pixel3 = 3
+                    pixel3 = 4
                     height3 = 12
                     period3 = 12
-                    speed3 = 4
+                    speed3 = 3
                     frequency3 = 1
 
                     canvas3.height = 2.5 * height3
