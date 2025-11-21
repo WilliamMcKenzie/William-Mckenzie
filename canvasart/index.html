@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../styles.css">
+    <title>William McKenzie</title>
+</head>
+<body>
+    <div class="nav-box">
+        <div class="nav">
+            <div>
+                <h2>William McKenzie</h2>
+                <links>
+                    <a class="spaced" href="../">About</a>
+                    <a class="spaced" href="../writing">Writing</a>
+                </links>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h1>HTML5 Canvas Art</h1>
+        <p>This is a little bit of a follow-along HTML5 procedural canvas pixel art tutorial. It makes for wild websites with instant load times, using pure math instead of massive frameworks.</p>
+        <p>
+            <h1>Canvas Intro</h1>
+            Procedural art is art that has been created with a system instead of by hand. No not like AI! The system is the art itself, usually derived from math functions.
+            <br>
+            <br>
+            You can find an example on the main page of my website, but first we need to get a canvas set up and display math functions on it.
+            To start off, I'm going to establish some functions; toPixel(x), getPoint(x), and animate().
+            <br>
+            <br>
+            Added:
+            <ul>
+                <li><em>pixel:</em> The size of each pixel in our grid.</li>
+                <li><em>height:</em> Height of our sin wave.</li>
+                <li><em>period:</em> Period of our sin wave.</li>
+                <li><em>canvas:</em> Our canvas element from the html document.</li>
+                <li><em>context:</em> Our canvases context, which allows us to draw.</li>
+                <li><em>toPixel(x):</em> Snap any number into a grid.</li>
+                <li><em>getPoint(x):</em> To get the y value for a given x value, our function.</li>
+                <li><em>animate():</em> The core loop which will get repeatedly called.</li>
+            </ul>
+
+            <div class="sin_container">
+                <br>
+                <br>
+                <br>
+                <canvas class="canvas1"></canvas>
+            </div>
+            <pre><code>// Edit these values!
+const pixel = <input id="pixel1" type="number" value="3"/>
+const height = <input id="height1"  type="number" value="12"/>
+const period = <input id="period1"  type="number" value="12"/>
+const canvas = document.querySelector("canvas")
+const context = canvas.getContext('2d')
+
+function toPixel(x) {
+    return pixel * Math.round(x / pixel)
+}
+
+function toPoint(x) {
+    const value = Math.sin(x / period) * height
+    return value + height
+}
+
+function animate() {
+    const width = canvas.width
+    for (let x = 0; x < width; x++) {
+        context.fillRect(toPixel(x), toPixel(toPoint(x)), pixel, pixel)
+    }
+
+    requestAnimationFrame(animate)
+}
+
+animate()
+            </code></pre>
+            <script>
+                let pixel1 = 3
+                let height1 = 12
+                let period1 = 12
+                const canvas1 = document.querySelector(".canvas1")
+                const context1 = canvas1.getContext('2d')
+
+                function toPixel1(x) {
+                    return pixel1 * Math.round(x / pixel1)
+                }
+
+                function toPoint1(x) {
+                    const value = Math.sin(x / period1) * height1
+                    return value + height1
+                }
+
+                function animate1() {
+                    context1.fillStyle = "#666"
+                    context1.clearRect(0, 0, canvas1.width, canvas1.height)
+                    const width = canvas1.width
+                    for (let x = 0; x < width; x++) {
+                        context1.fillRect(toPixel1(x), toPixel1(toPoint1(x)), pixel1, pixel1)
+                    }
+
+                    requestAnimationFrame(animate1)
+                }
+
+                const pixelInput1 = document.getElementById("pixel1")
+                const heightInput1 = document.getElementById("height1")
+                const periodInput1 = document.getElementById("period1")
+
+                pixelInput1.addEventListener("change", (e) => {
+                    pixel1 = parseInt(e.target.value)
+                })
+                heightInput1.addEventListener("change", (e) => {
+                    height1 = parseInt(e.target.value)
+                    canvas1.height = 2.5 * height1
+                })
+                periodInput1.addEventListener("change", (e) => {
+                    period1 = parseInt(e.target.value)
+                })
+
+                canvas1.height = 2.5 * height1
+                animate1()
+            </script>
+
+            <br>
+            <br>
+
+            <h1>Animation</h1>
+            Cool! But how do we make it oscillate? We can simply add a counter to the animation loop. With this new dynamic counter, add it to both shift and act as a coefficient to our sin function.
+    
+            <br>
+            <br>
+            
+            Added:
+            <ul>
+                <li><em>speed:</em> How fast the counter goes up.</li>
+                <li><em>counter:</em> Count how many frames we have been through.</li>
+            </ul>
+
+            <div class="sin_container">
+                <br>
+                <button onclick="sinwave()">Default</button>
+                <button onclick="wavey()">Wavey</button>
+                <button onclick="funky()">Snake</button>
+                <button onclick="particleaccelerator()">Particle Accelerator</button>
+                <br>
+                <br>
+                <canvas class="canvas2"></canvas>
+            </div>
+            <pre><code>// Edit these values!
+const pixel = <input id="pixel2" type="number" value="3"/>
+const height = <input id="height2"  type="number" value="12"/>
+const period = <input id="period2"  type="number" value="12"/>
+const canvas = document.querySelector("canvas")
+const context = canvas.getContext('2d')
+
+const speed = <input id="speed2"  type="number" value="4"/>
+let counter = 0
+
+function toPixel(x) {
+    return pixel * Math.round(x / pixel)
+}
+
+function toPoint(x) {
+    const value = Math.sin((x * frequency) / period) * height * Math.sin(counter / (8 * pixel))
+    return value + height
+}
+
+function animate() {
+    counter += speed
+
+    const width = canvas.width
+    for (let x = 0; x < width; x++) {
+        context.fillRect(toPixel(x), toPixel(toPoint(x + counter)), pixel, pixel)
+    }
+
+    requestAnimationFrame(animate)
+}
+
+animate()
+            </code></pre>
+            <script>
+                let pixel2 = 3
+                let height2 = 12
+                let period2 = 12
+                let frequency2 = 1
+                const canvas2 = document.querySelector(".canvas2")
+                const context2 = canvas2.getContext('2d')
+                
+                let speed2 = 4
+                let counter2 = 0
+
+                function toPixel2(x) {
+                    return pixel2 * Math.round(x / pixel2)
+                }
+
+                function toPoint2(x) {
+                    const value = Math.sin((x * frequency2) / period2) * height2 * Math.sin(counter2 / (8 * pixel2))
+                    return value + height2
+                }
+
+                function animate2() {
+                    counter2 += speed2
+                    context2.fillStyle = "#666"
+                    context2.clearRect(0,0,canvas2.width, canvas2.height)
+                    const width = canvas2.width
+                    for (let x = 0; x < width; x++) {
+                        context2.fillRect(toPixel2(x), toPixel2(toPoint2(x + counter2)), pixel2, pixel2)
+                    }
+
+                    requestAnimationFrame(animate2)
+                }
+
+                const pixelInput2 = document.getElementById("pixel2")
+                const heightInput2 = document.getElementById("height2")
+                const periodInput2 = document.getElementById("period2")
+                const speedInput2 = document.getElementById("speed2")
+
+                pixelInput2.addEventListener("change", (e) => {
+                    pixel2 = parseInt(e.target.value)
+                })
+                heightInput2.addEventListener("change", (e) => {
+                    height2 = parseInt(e.target.value)
+                    canvas2.height = 2.5 * height2
+                })
+                periodInput2.addEventListener("change", (e) => {
+                    period2 = parseInt(e.target.value)
+                })
+                speedInput2.addEventListener("change", (e) => {
+                    speed2 = parseInt(e.target.value)
+                })
+
+                function sinwave() {
+                    pixelInput2.value = 3
+                    heightInput2.value = 12
+                    periodInput2.value = 12
+                    speedInput2.value = 4
+
+                    pixel2 = 3
+                    height2 = 12
+                    period2 = 12
+                    speed2 = 4
+
+                    canvas2.height = 2.5 * height2
+                }
+
+                function wavey() {
+                    pixelInput2.value = 8
+                    heightInput2.value = 128
+                    periodInput2.value = 128
+                    speedInput2.value = 4
+
+                    pixel2 = 8
+                    height2 = 128
+                    period2 = 128
+                    speed2 = 4
+
+                    canvas2.height = 2.5 * height2
+                }
+
+                function particleaccelerator() {
+                    pixelInput2.value = 8
+                    heightInput2.value = 128
+                    periodInput2.value = -1
+                    speedInput2.value = 4
+
+                    pixel2 = 8
+                    height2 = 128
+                    period2 = -1
+                    speed2 = 4
+
+                    canvas2.height = 2.5 * height2
+                }
+
+                function funky() {
+                    pixelInput2.value = 16
+                    heightInput2.value = 128
+                    periodInput2.value = 12
+                    speedInput2.value = 4
+
+                    pixel2 = 16
+                    height2 = 128
+                    period2 = 12
+                    speed2 = 4
+
+                    canvas2.height = 2.5 * height2
+                }
+
+                canvas2.height = 2.5 * height2
+                animate2()
+            </script>
+
+            <br>
+            <br>
+            <h1>More Sin</h1>
+            Now we have a good looking animation, as a little bonus we can add some fancy stuff. Frequency behaves strangely when working with pixels, you may have noticed at period = +- 1 our wave goes wild, but what about when -1 < period < 1?
+    
+            <br>
+            <br>
+            
+            Added:
+            <ul>
+                <li><em>Frequency:</em> Inverse of period.</li>
+            </ul>
+
+            <div class="sin_container">
+                <br>
+                <button onclick="freakwave()">Default</button>
+                <button onclick="helix()">Helix</button>
+                <button onclick="chain()">Chain</button>
+                <button onclick="honeycomb()">Honeycomb</button>
+                <button onclick="fishnet()">Fishnet</button>
+                <br>
+                <br>
+                <canvas class="canvas3"></canvas>
+            </div>
+            <pre><code>// Edit these values!
+const pixel = <input id="pixel3" type="number" value="3"/>
+const height = <input id="height3"  type="number" value="12"/>
+const period = <input id="period3"  type="number" value="12"/>
+const canvas = document.querySelector("canvas")
+const context = canvas.getContext('2d')
+
+const speed = <input id="speed3"  type="number" value="4"/>
+let counter = 0
+
+const frequency = <input id="frequency3"  type="number" value="1"/>
+
+function toPixel(x) {
+    return pixel * Math.round(x / pixel)
+}
+
+function toPoint(x) {
+    const value = Math.sin((x * frequency) / period) * height * Math.sin(counter / (8 * pixel))
+    return value + height
+}
+
+function animate() {
+    counter += speed
+
+    const width = canvas.width
+    for (let x = 0; x < width; x++) {
+        context.fillRect(toPixel(x), toPixel(toPoint(x + counter)), pixel, pixel)
+    }
+
+    requestAnimationFrame(animate)
+}
+
+animate()
+            </code></pre>
+            <script>
+                let pixel3 = 3
+                let height3 = 12
+                let period3 = 12
+                let frequency3 = 1
+                const canvas3 = document.querySelector(".canvas3")
+                const context3 = canvas3.getContext('2d')
+                
+                let speed3 = 4
+                let counter3 = 0
+
+                function toPixel3(x) {
+                    return pixel3 * Math.round(x / pixel3)
+                }
+
+                function toPoint3(x) {
+                    const value = Math.sin((x * frequency3) / period3) * height3 * Math.sin(counter3 / (8 * pixel3))
+                    return value + height3
+                }
+
+                function animate3() {
+                    counter3 += speed3
+                    context3.fillStyle = "#666"
+                    context3.clearRect(0,0,canvas3.width, canvas3.height)
+                    const width = canvas3.width
+                    for (let x = 0; x < width; x++) {
+                        context3.fillRect(toPixel3(x), toPixel3(toPoint3(x + counter3)), pixel3, pixel3)
+                    }
+
+                    requestAnimationFrame(animate3)
+                }
+
+                const pixelInput3 = document.getElementById("pixel3")
+                const heightInput3 = document.getElementById("height3")
+                const periodInput3 = document.getElementById("period3")
+                const speedInput3 = document.getElementById("speed3")
+                const frequencyInput3 = document.getElementById("frequency3")
+
+                pixelInput3.addEventListener("change", (e) => {
+                    pixel3 = parseInt(e.target.value)
+                })
+                heightInput3.addEventListener("change", (e) => {
+                    height3 = parseInt(e.target.value)
+                    canvas3.height = 2.5 * height3
+                })
+                periodInput3.addEventListener("change", (e) => {
+                    period3 = parseInt(e.target.value)
+                })
+                speedInput3.addEventListener("change", (e) => {
+                    speed3 = parseInt(e.target.value)
+                })
+                frequencyInput3.addEventListener("change", (e) => {
+                    frequency3 = parseInt(e.target.value)
+                })
+
+                function freakwave() {
+                    pixelInput3.value = 3
+                    heightInput3.value = 12
+                    periodInput3.value = 12
+                    speedInput3.value = 4
+                    frequencyInput3.value = 1
+
+                    pixel3 = 3
+                    height3 = 12
+                    period3 = 12
+                    speed3 = 4
+                    frequency3 = 1
+
+                    canvas3.height = 2.5 * height3
+                }
+
+                function helix() {
+                    pixelInput3.value = 3
+                    heightInput3.value = 32
+                    periodInput3.value = 12
+                    speedInput3.value = 1
+                    frequencyInput3.value = 100
+
+                    pixel3 = 3
+                    height3 = 32
+                    period3 = 12
+                    speed3 = 1
+                    frequency3 = 100
+
+                    canvas3.height = 2.5 * height3
+                }
+
+                function chain() {
+                    pixelInput3.value = 8
+                    heightInput3.value = 64
+                    periodInput3.value = 12
+                    speedInput3.value = 4
+                    frequencyInput3.value = 114
+
+                    pixel3 = 8
+                    height3 = 64
+                    period3 = 12
+                    speed3 = 4
+                    frequency3 = 114
+
+                    canvas3.height = 2.5 * height3
+                }
+
+                function honeycomb() {
+                    pixelInput3.value = 6
+                    heightInput3.value = 64
+                    periodInput3.value = 6
+                    speedInput3.value = 1
+                    frequencyInput3.value = 274
+
+                    pixel3 = 6
+                    height3 = 64
+                    period3 = 6
+                    speed3 = 1
+                    frequency3 = 274
+
+                    canvas3.height = 2.5 * height3
+                }
+
+                function fishnet() {
+                    pixelInput3.value = 8
+                    heightInput3.value = 256
+                    periodInput3.value = 9
+                    speedInput3.value = 2
+                    frequencyInput3.value = 17
+
+                    pixel3 = 8
+                    height3 = 256
+                    period3 = 9
+                    speed3 = 2
+                    frequency3 = 17
+
+                    canvas3.height = 2.5 * height3
+                }
+
+                canvas3.height = 2.5 * height2
+                animate3()
+            </script>
+        </div>
+</body>
+</html>

@@ -23,7 +23,29 @@ body {
   background-color: #fff;
 }
 
-canvas {
+input {
+  color: #666;
+  background-color: #fff;
+  outline: none;
+  border: none;
+}
+
+button {
+  background-color: #eee;
+  outline: none;
+  border: none
+}
+button:hover {
+  background-color: #458e9d;
+  color: #fff;
+}
+
+.sin_container {
+  max-height: fit-content;
+  overflow: hidden;
+}
+
+.canvas {
   position: absolute;
   top: 0;
   left: 0;
