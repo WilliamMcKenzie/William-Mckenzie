@@ -35,7 +35,7 @@ function renderPoint(x) {
 } 
 
 function animate() {
-    offset += speedCoefficient * (frequency / 80)
+    offset = 5
     size = Math.sin(offset) * Math.pow(pixel, 2)
     size += size > 0 ? 8 : -8
 
