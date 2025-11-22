@@ -1,7 +1,6 @@
 const html = document.querySelector('html')
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
-html.style.background = "#3C6A79"
 
 const pixel = 8
 const frequency = 1
@@ -33,6 +32,7 @@ function animate() {
 }
 
 animate()
+resizeCanvas()
 
 window.addEventListener('resize', resizeCanvas)
 function resizeCanvas() {

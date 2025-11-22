@@ -1,7 +1,6 @@
 const html = document.querySelector('html')
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
-html.style.background = "#3C6A79"
 
 const size = 6
 const white = "#458e9d"

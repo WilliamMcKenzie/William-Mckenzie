@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <title>WQM</title>
+</head>
+<body>
+    <canvas class="canvas"></canvas>
+    <button onclick="window.location.href = '../4/'" class="bg-button">
+        Next bg
+    </button>
+    <button onclick="window.location.href = '../../'" class="bg-button" style="top: 6rem">
+        Home
+    </button>
+    <h3>
+        Migraine
+    </h3>
+    <script>
+        function cycleBackground() {
+            const body = document.querySelector("body")
+            const script = document.getElementById("background-script")
+            script.src = "bg1.js"
+            body.removeChild(script)
+            body.appendChild(script)
+        }
+    </script>
+    <script id="background-script" src="../../bg4.js"></script>
+</body>
+</html>

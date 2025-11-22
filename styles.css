@@ -17,10 +17,17 @@ html {
 
 body {
   height: 100%;
+  margin-top: 6rem;
+}
+
+main {
   padding: 2rem;
-  margin-top: 8rem;
   background: url("./noise.png") repeat scroll left top;
   background-color: #fff;
+}
+
+.hidden {
+  display: none;
 }
 
 input {
@@ -33,12 +40,34 @@ input {
 button {
   background-color: #eee;
   outline: none;
-  border: none
+  border: none;
 }
 button:hover {
   background-color: #458e9d;
   color: #fff;
 }
+
+.bg-button {
+  position: absolute;
+  top: 4rem;
+  left: 1rem;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  color: #fff;
+}
+.bg-button:hover {
+  background-color: #fff;
+  color: #458e9d;
+}
+
+h3 {
+  color: #fff;
+  position: absolute;
+  top: 0;
+  left: 1rem;
+}
+
 
 .sin_container {
   max-height: fit-content;

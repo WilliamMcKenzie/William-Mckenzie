@@ -10,7 +10,10 @@
     <title>WQM</title>
 </head>
 <body>
-    <canvas class="canvas"></canvas>
+    <canvas onclick="toggleVisibility()" class="canvas"></canvas>
+    <button onclick="window.location.href = '../bg/1'" class="hidden bg-button" style="top: 1rem">
+        Previous bgs
+    </button>
     <div class="nav-box">
         <div class="nav">
             <div>
@@ -77,6 +80,18 @@
             <a class="spaced" href="./Resume.pdf">Resume</a>
         </div>
     </main>
-    <script src="bg2.js"></script>
+    <script>
+        function toggleVisibility() {
+            const body = document.querySelector("body")
+            const children = body.childNodes
+
+            for (var child of children) {
+                if (child.nodeName == "MAIN" || child.nodeName == "DIV" || child.nodeName == "BUTTON") {
+                    child.classList.toggle("hidden")
+                }
+            }
+        }
+    </script>
+    <script id="background-script" src="bg7.js"></script>
 </body>
 </html>

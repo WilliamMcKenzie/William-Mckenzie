@@ -28,7 +28,7 @@ function noise() {
     for (let x = -1000; x < 1000; x += 8) {
         for (let y = -1000; y < 1000; y += 8) {
             const opacity = (800 - (Math.abs(x) + Math.abs(y))) / 1000
-            ctx.fillStyle = `rgba(255, 255, 255, ${opacity + (Math.random() / 100)})`
+            ctx.fillStyle = `rgba(255, 255, 255, ${opacity + (Math.random() / 10)})`
             ctx.fillRect(x + widthOffset, y + heightOffset, pixel, pixel)
         }
     }
