@@ -83,11 +83,6 @@ function animate() {
     for (let i = 0; i < sentients.length; i++) {
         sentients[i].update()
         tiles.add(sentients[i].draw())
-        
-        if (sentients[i].x < 0 || sentients[i].x > canvas.width || sentients[i].y < 0 || sentients[i].y > canvas.height) {
-            sentients.splice(i, 1)
-            i--
-        }
     }
 
     if (frames > 256) {
