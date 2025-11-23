@@ -12,7 +12,7 @@ const orangbg = "#e07a5f"
 const pixel = 8
 const frequency = 4
 let fill = "rgba(255, 255, 255, 0.1)"
-let speedCoefficient = 1
+let speedCoefficient = 0
 let stretchCoefficient1 = 1
 let stretchCoefficient2 = 1
 let offset = 0
@@ -51,7 +51,7 @@ function animate() {
         const leftDist = 1 - (i / cursorX)
         let leftStretch = (leftDist * baseHeight)
         
-        let baseValue = baseHeight + leftStretch * Math.sin(i)
+        let baseValue = baseHeight + leftStretch * Math.sin(i * (1 + offset))
         let centerValue = cursorY
         let leftValue = (baseValue * (1 - leftDist)) + (centerValue * leftDist)
 
@@ -59,7 +59,7 @@ function animate() {
             ctx.fillRect(pixellate(i), pixellate(leftValue), pixel, pixel)
         }
         else {
-            ctx.fillRect(pixellate(i), pixellate(baseHeight + rightStretch * Math.sin(i / 24)), pixel, pixel)
+            ctx.fillRect(pixellate(i), pixellate(baseHeight + rightStretch * Math.sin((i + offset) / 24)), pixel, pixel)
         }
     }
 

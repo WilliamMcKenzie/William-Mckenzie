@@ -10,7 +10,7 @@ let cursorY = window.innerHeight / 2
 const tealbg = "#027D9C"
 const orangbg = "#e07a5f"
 const pixel = 8
-const frequency = 4
+let frequency = 20
 let fill = "rgba(255, 255, 255, 0.1)"
 let speedCoefficient = 1
 let stretchCoefficient1 = 1
@@ -30,12 +30,12 @@ function pixellate(x) {
 }
 
 function renderPoint(x) {
-    let base = Math.sin((offset + x / 20))
+    let base = Math.sin((offset + x / frequency))
     return stretchCoefficient2 * stretchCoefficient1 * Math.round((base * size) / 8)
 } 
 
 function animate() {
-    offset += speedCoefficient * (frequency / 80)
+    offset += speedCoefficient / 20
     size = Math.sin(offset) * Math.pow(pixel, 2)
     size += size > 0 ? 8 : -8
 
@@ -64,14 +64,6 @@ function animate() {
             ctx.fillRect(pixellate(i), pixellate(rightValue), pixel, pixel)
         }
     }
-
-    // for (let x = -1000; x < 1000; x += 8) {
-    //     for (let y = -250; y < 250; y += 8) {
-    //         const opacity = (800 - (Math.abs(x) + Math.abs(y))) / 1000
-    //         ctx.fillStyle = `rgba(255, 255, 255, ${opacity + (Math.random() / 100)})`
-    //         ctx.fillRect(x + widthOffset, y + heightOffset, pixel, pixel)
-    //     }
-    // }
     
     requestAnimationFrame(animate)
 }
