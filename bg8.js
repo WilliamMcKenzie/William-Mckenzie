@@ -29,8 +29,10 @@ function pixellate(x) {
     return pixel * Math.round(x / pixel)
 }
 
+
+let clicking = false
 function renderPoint(x) {
-    let base = Math.sin((offset + x / frequency))
+    let base = Math.sin(((Math.abs(cursorY - canvas.height) / (8 * clicking)) + x / frequency))
     return stretchCoefficient2 * stretchCoefficient1 * 8 * Math.round((base * size) / 8)
 } 
 
@@ -42,19 +44,19 @@ function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = fill
 
+    clicking = frequency == 1000 ? 1 : 2
+
     for (let i = 0; i < canvas.width; i += 1) {
         const scale = cursorX - i
         const scaleFactor = cursorX 
         stretchCoefficient1 = (scaleFactor - i) / (canvas.width / 2)
         ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(10/(cursorX - i))})`
-        
-        const power = frequency == 1000 ? 1 : 2
 
         ctx.fillRect(pixellate(i), renderPoint(i * 100) + cursorY, pixel, pixel)
-        ctx.fillRect(pixellate(i), Math.pow(renderPoint(i * 100), power) - (scale * 2) + cursorY, pixel, pixel)
-        ctx.fillRect(pixellate(i), (scale * power) + Math.pow(renderPoint(i * 100), power) + cursorY, pixel, pixel)
-        ctx.fillRect(pixellate(i), -(Math.pow(renderPoint(i * 100), power) - (scale * 2)) + cursorY, pixel, pixel)
-        ctx.fillRect(pixellate(i), -((scale * power) + Math.pow(renderPoint(i * 100), power)) + cursorY, pixel, pixel)
+        ctx.fillRect(pixellate(i), Math.pow(renderPoint(i * 100), clicking) - (scale * 2) + cursorY, pixel, pixel)
+        ctx.fillRect(pixellate(i), (scale * clicking) + Math.pow(renderPoint(i * 100), clicking) + cursorY, pixel, pixel)
+        ctx.fillRect(pixellate(i), -(Math.pow(renderPoint(i * 100), clicking) - (scale * 2)) + cursorY, pixel, pixel)
+        ctx.fillRect(pixellate(i), -((scale * clicking) + Math.pow(renderPoint(i * 100), clicking)) + cursorY, pixel, pixel)
     }
     
     requestAnimationFrame(animate)
