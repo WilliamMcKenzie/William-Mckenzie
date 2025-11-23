@@ -7,10 +7,10 @@ resizeCanvas()
 const tealbg = "#027D9C"
 const orangbg = "#e07a5f"
 const pixel = 8
-const frequency = 4
+let frequency = 20
 let fill = "rgba(255, 255, 255, 0.1)"
 let speedCoefficient = 1
-let stretchCoefficient1 = 1
+let stretchCoefficient1 = 2
 let stretchCoefficient2 = 1
 let offset = 0
 let size = 0
@@ -27,13 +27,13 @@ function pixellate(x) {
 }
 
 function renderPoint(x) {
-    let base = Math.sin((offset + x / 20))
-    base += Math.sin((offset + x / 20)) > 0 ? 1 : -1
-    return stretchCoefficient2 * stretchCoefficient1 * 8 * Math.round((base * size) / 8)
+    let base = Math.sin((offset + x / frequency))
+    base += Math.sin((offset + x / frequency)) > 0 ? 1 : -1
+    return 4 * stretchCoefficient1 * 8 * Math.round((base * size) / 8)
 } 
 
 function animate() {
-    offset += speedCoefficient * (frequency / 80)
+    offset += speedCoefficient / 20
     size = Math.sin(offset) * Math.pow(pixel, 2)
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
@@ -99,4 +99,3 @@ for (url of urls) {
         }, 50)
     })
 }
-

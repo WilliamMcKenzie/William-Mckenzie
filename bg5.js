@@ -6,11 +6,22 @@ html.style.backgroundColor = "#027D9C"
 resizeCanvas()
 
 const pixel = 8
-const frequency = 4
+let frequency = 1
 let speedCoefficient = 1
 let stretchCoefficient = 1
 let offset = 0
 let size = 0
+let fill = "rgba(255, 255, 255, 0.1)"
+
+const tealbg = "#027D9C"
+const orangbg = "#e07a5f"
+
+changebg(tealbg)
+
+function changebg(color) {
+    html.style.backgroundColor = color
+    canvas.style.backgroundColor = color
+}
 
 function pixellate(x) {
     return pixel * Math.round(x / pixel)
@@ -22,18 +33,18 @@ function renderPoint(x) {
 } 
 
 function animate() {
-    offset += speedCoefficient * (frequency / 80)
+    offset += speedCoefficient / 20
     size = Math.sin(offset) * Math.pow(pixel, 2)
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     const heightOffset = Math.round(window.innerHeight / 2)
     const widthOffset = Math.round(window.innerWidth / 2)
     const scaleFactor = (canvas.width / 2)
-    ctx.fillStyle = "rgba(255, 255, 255, 0.1)"
+    ctx.fillStyle = fill
 
     for (let i = 0; i < canvas.width; i += 1) {
         const scale = scaleFactor - i
-        stretchCoefficient = scaleFactor - i
+        stretchCoefficient = (scaleFactor - i) / frequency
 
         ctx.fillRect(pixellate(i), renderPoint(i * 100) + heightOffset, pixel, pixel)
         ctx.fillRect(pixellate(i), renderPoint(i * 100) - scale + heightOffset, pixel, pixel)

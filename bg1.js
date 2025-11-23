@@ -108,3 +108,4 @@ function resizeCanvas() {
     canvas.height = Math.max(html.clientHeight, html.scrollHeight, html.offsetHeight )
     start()
 }
+

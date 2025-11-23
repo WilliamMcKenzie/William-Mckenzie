@@ -99,4 +99,3 @@ for (url of urls) {
         }, 50)
     })
 }
-

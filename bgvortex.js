@@ -92,12 +92,11 @@ for (url of urls) {
     url.addEventListener("mouseenter", (_) => {
         changebg(orangbg)
         fill = "rgba(2, 125, 156, 0.3)"
-        frequency = 100
+        frequency = 22
     })
     url.addEventListener("mouseleave", (_) => {
         changebg(tealbg)
         fill = "rgba(255, 255, 255, 0.1)"
-        frequency = 55
+        frequency = 77
     })
 }
-

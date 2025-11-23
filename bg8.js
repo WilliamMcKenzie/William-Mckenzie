@@ -10,7 +10,7 @@ let cursorY = window.innerHeight / 2
 const tealbg = "#027D9C"
 const orangbg = "#e07a5f"
 const pixel = 8
-const frequency = 4
+let frequency = 20
 let fill = "rgba(255, 255, 255, 0.1)"
 let speedCoefficient = 1
 let stretchCoefficient1 = 1
@@ -30,7 +30,7 @@ function pixellate(x) {
 }
 
 function renderPoint(x) {
-    let base = Math.sin((offset + x / 20))
+    let base = Math.sin((offset + x / frequency))
     return stretchCoefficient2 * stretchCoefficient1 * 8 * Math.round((base * size) / 8)
 } 
 
@@ -47,21 +47,15 @@ function animate() {
         const scaleFactor = cursorX 
         stretchCoefficient1 = (scaleFactor - i) / (canvas.width / 2)
         ctx.fillStyle = `rgba(255, 255, 255, ${Math.abs(10/(cursorX - i))})`
+        
+        const power = frequency == 1000 ? 1 : 2
 
         ctx.fillRect(pixellate(i), renderPoint(i * 100) + cursorY, pixel, pixel)
-        ctx.fillRect(pixellate(i), Math.pow(renderPoint(i * 100), 2) - (scale * 2) + cursorY, pixel, pixel)
-        ctx.fillRect(pixellate(i), (scale * 2) + Math.pow(renderPoint(i * 100), 2) + cursorY, pixel, pixel)
-        ctx.fillRect(pixellate(i), -(Math.pow(renderPoint(i * 100), 2) - (scale * 2)) + cursorY, pixel, pixel)
-        ctx.fillRect(pixellate(i), -((scale * 2) + Math.pow(renderPoint(i * 100), 2)) + cursorY, pixel, pixel)
+        ctx.fillRect(pixellate(i), Math.pow(renderPoint(i * 100), power) - (scale * 2) + cursorY, pixel, pixel)
+        ctx.fillRect(pixellate(i), (scale * power) + Math.pow(renderPoint(i * 100), power) + cursorY, pixel, pixel)
+        ctx.fillRect(pixellate(i), -(Math.pow(renderPoint(i * 100), power) - (scale * 2)) + cursorY, pixel, pixel)
+        ctx.fillRect(pixellate(i), -((scale * power) + Math.pow(renderPoint(i * 100), power)) + cursorY, pixel, pixel)
     }
-
-    // for (let x = -1000; x < 1000; x += 8) {
-    //     for (let y = -250; y < 250; y += 8) {
-    //         const opacity = (800 - (Math.abs(x) + Math.abs(y))) / 1000
-    //         ctx.fillStyle = `rgba(255, 255, 255, ${opacity + (Math.random() / 100)})`
-    //         ctx.fillRect(x + widthOffset, y + heightOffset, pixel, pixel)
-    //     }
-    // }
     
     requestAnimationFrame(animate)
 }
@@ -79,7 +73,7 @@ document.addEventListener('mousemove', function(event) {
   cursorY = event.clientY
 });
 
-const urls = document.querySelectorAll("a")
+let urls = document.querySelectorAll("a")
 
 for (url of urls) {
     url.addEventListener("mouseenter", (_) => {
@@ -107,4 +101,3 @@ for (url of urls) {
         }, 50)
     })
 }
-
