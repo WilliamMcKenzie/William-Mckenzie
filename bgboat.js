@@ -11,7 +11,7 @@ let cursorY = window.innerHeight / 2
 const tealbg = "#027D9C"
 const orangbg = "#e07a5f"
 const pixel = 8
-let frequency = 1000
+let frequency = 1
 let fill = "rgba(255, 255, 255, 0.1)"
 let speedCoefficient = 1
 let stretchCoefficient1 = 1
@@ -31,20 +31,23 @@ function pixellate(x) {
 }
 
 function animate() {
-    offset += speedCoefficient / 20
+    offset += speedCoefficient
     size = Math.sin(offset) * Math.pow(pixel, 2)
     size += size > 0 ? 8 : -8
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    ctx.fillStyle = fill
 
     for (let i = 0; i < canvas.width; i += 1) {
         const leftDist = 1 - (i / cursorX)
         const leftStretch = (leftDist * canvas.height / 6)
         
-
-        if (i < cursorX) {
-            ctx.fillRect(pixellate(i), pixellate(leftStretch * Math.sin(offset + i * frequency) + canvas.height/2), pixel, pixel)
+        if (i < cursorX && i > cursorX - 600) {
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.log(2 - (2 * (cursorX - i) / (600))) - 0.2})`
+            ctx.fillRect(pixellate(i), pixellate(leftStretch * 2 * Math.sin(-offset/10 + i) + canvas.height/2), pixel, pixel)
+        }
+        if (i < cursorX && i > cursorX - 300) {
+            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(0.1, Math.log(2 - (2 * (cursorX - i) / (300))))})`
+            ctx.fillRect(pixellate(i), pixellate((leftStretch * 4) * Math.sin(offset + i) + canvas.height/2), pixel, pixel)
         }
     }
 
