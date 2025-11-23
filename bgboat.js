@@ -33,7 +33,7 @@ function pixellate(x) {
 }
 
 function animate() {
-    velocity = Math.max(0, velocity*0.98)
+    velocity = Math.max(0.3, velocity*0.98)
     offset += speedCoefficient
     size = Math.sin(offset) * Math.pow(pixel, 2)
     size += size > 0 ? 8 : -8
@@ -47,13 +47,19 @@ function animate() {
             const leftDist = ((i - cursorX) / (canvas.width/2))
             const leftStretch = (leftDist * canvas.height / 6)
 
+            let v1 = leftStretch * 2 * absVelocity * Math.sin(-offset/10 + i) + canvas.height/2
+            v1 = v1 < canvas.height/2 ? leftStretch * 1.5 * absVelocity * Math.sin(-offset/10 + i) + canvas.height/2 : v1
+
+            let v2 = leftStretch * 4 * absVelocity * Math.sin(offset + i) + canvas.height/2
+            v2 = v2 < canvas.height/2 ? leftStretch * 3 * absVelocity * Math.sin(offset + i) + canvas.height/2 : v2
+
             if (i < cursorX && i > cursorX - 600) {
                 ctx.fillStyle = `rgba(255, 255, 255, ${absVelocity * Math.log(2 - (2 * (cursorX - i) / (600))) - 0.2})`
-                ctx.fillRect(pixellate(i), pixellate(leftStretch * 2 * absVelocity * Math.sin(-offset/10 + i) + canvas.height/2), pixel, pixel)
+                ctx.fillRect(pixellate(i), pixellate(v1), pixel, pixel)
             }
             if (i < cursorX && i > cursorX - 300) {
                 ctx.fillStyle = `rgba(255, 255, 255, ${absVelocity * Math.min(0.1, Math.log(2 - (2 * (cursorX - i) / (300))))})`
-                ctx.fillRect(pixellate(i), pixellate(leftStretch * 4 * absVelocity * Math.sin(offset + i) + canvas.height/2), pixel, pixel)
+                ctx.fillRect(pixellate(i), pixellate(v2), pixel, pixel)
             }
         }
     }
