@@ -11,15 +11,27 @@
 </head>
 <body>
     <canvas class="canvas"></canvas>
-    <button onclick="window.location.href = '10'" class="bg-button">
+    <button onclick="window.location.href = '9'" class="bg-button">
         Next bg
     </button>
     <button onclick="window.location.href = '/'" class="bg-button" style="top: 6rem">
         Home
     </button>
     <h3>
-        Drill
+        Yingyang (click for special effect)
     </h3>
-    <script id="background-script" src="../../bgflashlight.js"></script>
+    <script id="background-script" src="../../bgchopsuey.js"></script>
+    <script>
+        document.addEventListener("mousedown", (_) => {
+            changebg(orangbg)
+            fill = "rgba(2, 125, 156, 0.3)"
+            frequency = 1
+        })
+        document.addEventListener("mouseup", (_) => {
+            changebg(tealbg)
+            fill = "rgba(255, 255, 255, 0.1)"
+            frequency = 1/4000
+        })
+    </script>
 </body>
 </html>
