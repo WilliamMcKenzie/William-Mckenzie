@@ -19,6 +19,8 @@ let stretchCoefficient2 = 1
 let offset = 0
 let size = 0
 
+let velocity = 0
+
 changebg(tealbg)
 
 function changebg(color) {
@@ -31,6 +33,7 @@ function pixellate(x) {
 }
 
 function animate() {
+    velocity = Math.max(0, velocity*0.98)
     offset += speedCoefficient
     size = Math.sin(offset) * Math.pow(pixel, 2)
     size += size > 0 ? 8 : -8
@@ -38,16 +41,20 @@ function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     for (let i = 0; i < canvas.width; i += 1) {
-        const leftDist = 1 - (i / cursorX)
-        const leftStretch = (leftDist * canvas.height / 6)
+        const absVelocity = Math.abs(velocity)
         
-        if (i < cursorX && i > cursorX - 600) {
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.log(2 - (2 * (cursorX - i) / (600))) - 0.2})`
-            ctx.fillRect(pixellate(i), pixellate(leftStretch * 2 * Math.sin(-offset/10 + i) + canvas.height/2), pixel, pixel)
-        }
-        if (i < cursorX && i > cursorX - 300) {
-            ctx.fillStyle = `rgba(255, 255, 255, ${Math.min(0.1, Math.log(2 - (2 * (cursorX - i) / (300))))})`
-            ctx.fillRect(pixellate(i), pixellate((leftStretch * 4) * Math.sin(offset + i) + canvas.height/2), pixel, pixel)
+        if (velocity > 0) {
+            const leftDist = ((i - cursorX) / (canvas.width/2))
+            const leftStretch = (leftDist * canvas.height / 6)
+
+            if (i < cursorX && i > cursorX - 600) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${absVelocity * Math.log(2 - (2 * (cursorX - i) / (600))) - 0.2})`
+                ctx.fillRect(pixellate(i), pixellate(leftStretch * 2 * absVelocity * Math.sin(-offset/10 + i) + canvas.height/2), pixel, pixel)
+            }
+            if (i < cursorX && i > cursorX - 300) {
+                ctx.fillStyle = `rgba(255, 255, 255, ${absVelocity * Math.min(0.1, Math.log(2 - (2 * (cursorX - i) / (300))))})`
+                ctx.fillRect(pixellate(i), pixellate(leftStretch * 4 * absVelocity * Math.sin(offset + i) + canvas.height/2), pixel, pixel)
+            }
         }
     }
 
@@ -66,8 +73,12 @@ function resizeCanvas() {
 }
 
 document.addEventListener('mousemove', function(event) {
-  cursorX = event.clientX
-  cursorY = event.clientY
+    if (cursorX < event.clientX) {
+        velocity = Math.min(velocity + 0.005 * (event.clientX - cursorX), 2)
+    }
+
+    cursorX = event.clientX
+    cursorY = event.clientY
 });
 
 const urls = document.querySelectorAll("a")
