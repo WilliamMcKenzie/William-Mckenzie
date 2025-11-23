@@ -1,6 +1,7 @@
 const html = document.querySelector('html')
 const canvas = document.querySelector('canvas')
 const ctx = canvas.getContext('2d')
+const boat = document.getElementById("boat")
 
 resizeCanvas()
 
@@ -10,7 +11,7 @@ let cursorY = window.innerHeight / 2
 const tealbg = "#027D9C"
 const orangbg = "#e07a5f"
 const pixel = 8
-let frequency = 1
+let frequency = 1000
 let fill = "rgba(255, 255, 255, 0.1)"
 let speedCoefficient = 1
 let stretchCoefficient1 = 1
@@ -29,11 +30,6 @@ function pixellate(x) {
     return pixel * Math.round(x / pixel)
 }
 
-function renderPoint(x) {
-    let base = Math.sin((offset + (x * 100)))
-    return stretchCoefficient2 * stretchCoefficient1 * Math.round((base * size) / 8)
-} 
-
 function animate() {
     offset += speedCoefficient / 20
     size = Math.sin(offset) * Math.pow(pixel, 2)
@@ -44,22 +40,16 @@ function animate() {
 
     for (let i = 0; i < canvas.width; i += 1) {
         const leftDist = 1 - (i / cursorX)
-        const leftStretch = (leftDist * canvas.height / 2)
-        const rightDist = ((i - cursorX)) / (canvas.width - cursorX)
-        const rightStretch = (rightDist * canvas.height / 2)
+        const leftStretch = (leftDist * canvas.height / 6)
+        
 
         if (i < cursorX) {
             ctx.fillRect(pixellate(i), pixellate(leftStretch * Math.sin(offset + i * frequency) + canvas.height/2), pixel, pixel)
         }
     }
 
-    // for (let x = -1000; x < 1000; x += 8) {
-    //     for (let y = -250; y < 250; y += 8) {
-    //         const opacity = (800 - (Math.abs(x) + Math.abs(y))) / 1000
-    //         ctx.fillStyle = `rgba(255, 255, 255, ${opacity + (Math.random() / 100)})`
-    //         ctx.fillRect(x + widthOffset, y + heightOffset, pixel, pixel)
-    //     }
-    // }
+    boat.style.left = `${pixellate(cursorX - 72)}px`
+    boat.style.top = `${pixellate(canvas.height / 2 - 56)}px`
     
     requestAnimationFrame(animate)
 }
