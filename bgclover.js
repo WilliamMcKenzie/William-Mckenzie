@@ -29,7 +29,7 @@ function pixellate(x) {
 
 function animate() {
     let coefficient = seed == 256 ? 1 : 1
-    offset += coefficient / 2
+    offset += coefficient / 32
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = fill
@@ -58,6 +58,7 @@ function resizeCanvas() {
 }
 
 document.addEventListener('mousemove', function(event) {
+    offset += 1
   cursorX = event.clientX
   cursorY = event.clientY
 })
