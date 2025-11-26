@@ -28,6 +28,9 @@ let delta = 0
 
 function changeDelta() {
     delta += 1
+    if (escapeTime == william) {
+        animate()
+    }
     requestAnimationFrame(changeDelta)
 }
 
@@ -49,7 +52,6 @@ function recursive (t, color = [0,0,0], index = 0) {
     return getColor(t - (index / 8), color, index)
 }
 function custom (t) {
-    console.log(t, zoom)
     if (t > zoom * 15) {
         return [255,255,255]
     }
@@ -93,7 +95,7 @@ function setColors(which) {
 }
 
 function animate() {
-    increment = 1 / (64 * zoom)
+    increment = 1 / (32 * zoom)
     yOffset = canvas.height / 2
     xOffset = canvas.width / 2
     
@@ -120,13 +122,38 @@ document.addEventListener('mousemove', function(event) {
   cursorX = event.clientX
   cursorY = event.clientY
 })
-document.addEventListener("mousedown", function() {
-  zoom *= 1.3
-  zoomX = zoomX + ((cursorX - xOffset) / (frame * zoom))
-  zoomY = zoomY + ((cursorY - yOffset) / (frame * zoom))
-  animate()
-})
+// document.addEventListener("mousedown", function() {
+//   zoom *= 1.3
+//   zoomX = zoomX + ((cursorX - xOffset) / (frame * zoom))
+//   zoomY = zoomY + ((cursorY - yOffset) / (frame * zoom))
+//   animate()
+// })
 
+document.addEventListener('keydown', function(event) {
+    const key = event.key
+
+    if (key === '+' || key === '=' || key === 'Add' || (event.shiftKey && key === '=')) {
+        zoom *= 1.3
+        
+    } 
+    else if (key === '-' || key === 'Subtract' || key === '_') {
+        zoom *= 0.7
+    }
+    else if (key === 'w') {
+        zoomY -= 1 / zoom
+    }
+    else if (key == 's') {
+        zoomY += 1 / zoom
+    }
+    else if (key == 'a') {
+        zoomX -= 1 / zoom
+    }
+    else if (key == 'd') {
+        zoomX += 1 / zoom
+    }
+
+    animate()
+})
 
 
 function setEscapeTime(which) {
@@ -137,6 +164,23 @@ function setEscapeTime(which) {
     animate()
 }
 
+
+
+
+
+function multiply(x1, y1, x2, y2) {
+    return [(x1 * x2 - y1 * y2), (x1 * y2 + x2 * y1)]
+}
+
+function raise(x, y, pow) {
+    if (pow <= 1) {
+        return [x, y]
+    } else {
+        pow--
+        let z = raise(x, y, pow)
+        return multiply(x, y, z[0], z[1])
+    }
+}
 
 function god (x0, y0) {
     let counter = 0
@@ -154,21 +198,15 @@ function god (x0, y0) {
     return counter
 }
 
-function multiply(x1, y1, x2, y2) {
-    return [(x1 * x2 - y1 * y2), (x1 * y2 + x2 * y1)]
-}
-
 function strange (x0, y0) {
     let counter = 0
-    let x = 0
-    let y = 0
+    let x = x0
+    let y = y0
 
-    while ((x ** 2 + y ** 2) < 4 && counter < (zoom * 16)) {
-        let w = multiply(x,y,x,y)
-        let p = multiply(w[0], w[1], w[0], w[1])
-        let q = multiply(p[0], p[1] ** 2, p[0], p[1] ** 2)
-        x = Math.cos(q[0]) - y0
-        y = (q[1]) - x0
+    while (x ** 2 + y ** 2 < 16 && counter < (zoom * 16)) {
+        let z = raise(x, y, 2)
+        x += (z[0] - 0.99)
+        y += (z[1] + 0.13)
 
         counter += 1
     }
@@ -176,15 +214,31 @@ function strange (x0, y0) {
     return counter
 }
 
-function william (x0, y0) {
+function flame (x0, y0) {
     let counter = 0
-    let x = 0
-    let y = 0
+    let x = x0
+    let y = y0
 
-    while (Math.tan(x ** 3 + y ** 3) < 4 && counter < (zoom * 16)) {
-        let _x = x
-        x = (x ** power - y ** power + x0)
-        y = ((_x * y) + y0)
+    while (x ** 7 + y ** 3 < 16 && counter < (zoom * 16)) {
+        let z = raise(x, y, 2)
+        x += (z[0] - 1)
+        y += (z[1] + 0.2)
+
+        counter += 1
+    }
+
+    return counter
+}
+
+function starburst (x0, y0) {
+    let counter = 0
+    let x = x0
+    let y = y0
+
+    while (x ** 2 + y ** 2 < 160 && counter < (zoom * 16)) {
+        let z = raise(x, y, 2)
+        x += z[0] - 0.63
+        y += z[1] + 0.63
 
         counter += 1
     }
