@@ -154,12 +154,34 @@ function god (x0, y0) {
     return counter
 }
 
+function multiply(x1, y1, x2, y2) {
+    return [(x1 * x2 - y1 * y2), (x1 * y2 + x2 * y1)]
+}
+
+function strange (x0, y0) {
+    let counter = 0
+    let x = 0
+    let y = 0
+
+    while ((x ** 2 + y ** 2) < 4 && counter < (zoom * 16)) {
+        let w = multiply(x,y,x,y)
+        let p = multiply(w[0], w[1], w[0], w[1])
+        let q = multiply(p[0], p[1] ** 2, p[0], p[1] ** 2)
+        x = Math.cos(q[0]) - y0
+        y = (q[1]) - x0
+
+        counter += 1
+    }
+
+    return counter
+}
+
 function william (x0, y0) {
     let counter = 0
     let x = 0
     let y = 0
 
-    while (Math.tan(x ** 1 + y ** 2) < 4 && counter < (zoom * 16)) {
+    while (Math.tan(x ** 3 + y ** 3) < 4 && counter < (zoom * 16)) {
         let _x = x
         x = (x ** power - y ** power + x0)
         y = ((_x * y) + y0)
