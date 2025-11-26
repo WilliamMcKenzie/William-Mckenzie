@@ -18,7 +18,7 @@ function pixellate(x) {
     return pixel * Math.round(x / pixel)
 }
 
-let escapeTime = mendelbrot
+let escapeTime = strange
 
 let zoom = 1
 let zoomX = 0
