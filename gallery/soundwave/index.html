@@ -11,28 +11,29 @@
 </head>
 <body>
     <canvas class="canvas"></canvas>
-    <button onclick="window.location.href = '11'" class="bg-button">
-        Next bg
+    <button onclick="window.location.href = 'vortex'" class="bg-button">
+        Next
     </button>
     <button onclick="window.location.href = '/'" class="bg-button" style="top: 6rem">
         Home
     </button>
     <h3>
-        Streamliner (click for special effect)
+        Soundwave (click for special effect)
     </h3>
-    <script id="background-script" src="../../bgstreamliner.js"></script>
+    <script src="soundwave.js"></script>
+    <script src="mouseeffect.js"></script>
     <script>
         document.addEventListener("mousedown", (_) => {
             changebg(orangbg)
             fill = "rgba(2, 125, 156, 0.3)"
-            frequency = 10
-            speedCoefficient = 2
+            frequency = 145
+            seed = 128
         })
         document.addEventListener("mouseup", (_) => {
             changebg(tealbg)
             fill = "rgba(255, 255, 255, 0.1)"
-            speedCoefficient = 1
-            frequency = 20
+            frequency = 100
+            seed = 96
         })
     </script>
 </body>

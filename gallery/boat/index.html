@@ -11,27 +11,16 @@
 </head>
 <body>
     <canvas class="canvas"></canvas>
-    <button onclick="window.location.href = '6'" class="bg-button">
-        Next bg
+    <button onclick="window.location.href = 'fractals'" class="bg-button">
+        Next
     </button>
     <button onclick="window.location.href = '/'" class="bg-button" style="top: 6rem">
         Home
     </button>
     <h3>
-        Watchtower (click for special effect)
+        Boat
     </h3>
-    <script id="background-script" src="../../bg6.js"></script>
-    <script>
-        document.addEventListener("mousedown", (_) => {
-            changebg(orangbg)
-            fill = "rgba(2, 125, 156, 0.3)"
-            frequency = 1/1000
-        })
-        document.addEventListener("mouseup", (_) => {
-            changebg(tealbg)
-            fill = "rgba(255, 255, 255, 0.1)"
-            frequency = 20
-        })
-    </script>
+    <img id="boat" src="boat.png" style="position: absolute; scale: 8; image-rendering: pixelated;">
+    <script id="background-script" src="boat.js"></script>
 </body>
 </html>

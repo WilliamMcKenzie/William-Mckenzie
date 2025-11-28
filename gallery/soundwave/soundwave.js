@@ -10,7 +10,7 @@ let cursorY = window.innerHeight / 2
 const tealbg = "#027D9C"
 const orangbg = "#e07a5f"
 const pixel = 8
-let frequency = 77
+let frequency = 100
 let fill = "rgba(255, 255, 255, 0.1)"
 let speedCoefficient = 1
 let stretchCoefficient = 1
@@ -27,22 +27,42 @@ function pixellate(x) {
     return pixel * Math.round(x / pixel)
 }
 
+function renderPoint(x) {
+    let y = Math.sin((offset + x * frequency))
+    y *= stretchCoefficient
+    return y
+} 
+
 function animate() {
-    offset += speedCoefficient / 2
+    offset += speedCoefficient / 32
 
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = fill
 
-    const radius = 128
-    const radiussquared = radius ** 2
-    for (let i = -radius; i < radius; i += 1) {
-        let y = Math.sqrt(radiussquared - i ** 2)
-        let sinwave = 128 * Math.sin(offset + (i ** 1.5)/50)
+    for (let i = 0; i < canvas.width; i += 1) {
+        const baseHeight = canvas.height/2
+        const leftBase = Math.max(cursorX - 300, 16)
+        const rightBase = Math.max(cursorX + 300, 16)
 
-        ctx.fillRect(pixellate(cursorX + i), pixellate(sinwave + cursorY + y), pixel, pixel)
-        ctx.fillRect(pixellate(cursorX + i), pixellate(sinwave + cursorY - y), pixel, pixel)
-        ctx.fillRect(pixellate(sinwave + cursorX + y), pixellate(cursorY + i), pixel, pixel)
-        ctx.fillRect(pixellate(sinwave + cursorX - y), pixellate(cursorY + i), pixel, pixel)
+        const leftDist = 1 - (i / leftBase)
+        let leftStretch = (leftDist * baseHeight)
+        let leftBaseValue = baseHeight + leftStretch * renderPoint(i)
+        let leftValue = (leftBaseValue * (leftDist)) + (cursorY * (1 - leftDist))
+
+        const rightDist = ((i - rightBase)) / (canvas.width - rightBase)
+        let rightStretch = (rightDist * baseHeight)
+        let rightBaseValue = baseHeight + rightStretch * renderPoint(i)
+        let rightValue = (rightBaseValue * (rightDist)) + (cursorY * (1 - rightDist))
+
+        if (Math.abs(cursorX - i) < 300 ) {
+            continue
+        }
+        else if (i < cursorX) {
+            ctx.fillRect(pixellate(i), pixellate(leftValue), pixel, pixel)
+        }
+        else {
+            ctx.fillRect(pixellate(i), pixellate(rightValue), pixel, pixel)
+        }
     }
     
     requestAnimationFrame(animate)
@@ -67,11 +87,12 @@ for (url of urls) {
     url.addEventListener("mouseenter", (_) => {
         changebg(orangbg)
         fill = "rgba(2, 125, 156, 0.3)"
-        frequency = 22
+        frequency = 145
     })
     url.addEventListener("mouseleave", (_) => {
         changebg(tealbg)
         fill = "rgba(255, 255, 255, 0.1)"
-        frequency = 77
+        frequency = 100
     })
 }
+

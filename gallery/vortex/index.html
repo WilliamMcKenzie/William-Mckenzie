@@ -11,26 +11,40 @@
 </head>
 <body>
     <canvas class="canvas"></canvas>
-    <button onclick="window.location.href = '8'" class="bg-button">
-        Next bg
+    <button onclick="window.location.href = 'yingyang'" class="bg-button">
+        Next
     </button>
     <button onclick="window.location.href = '/'" class="bg-button" style="top: 6rem">
         Home
     </button>
     <h3>
-        Serendipity (click for special effect)
+        Vortex (click for special effect)
     </h3>
-    <script id="background-script" src="../../bg7.js"></script>
+    <script id="background-script" src="vortex.js"></script>
     <script>
         document.addEventListener("mousedown", (_) => {
             changebg(orangbg)
+            stretchCoefficient = 1.5
             fill = "rgba(2, 125, 156, 0.3)"
-            stretchCoefficient2 = 2
+            frequency = 11
+            setTimeout(() => {
+                speedCoefficient = 1.25
+                setTimeout(() => {
+                    speedCoefficient = 1.5
+                }, 50)
+            }, 50)
         })
         document.addEventListener("mouseup", (_) => {
             changebg(tealbg)
+            stretchCoefficient = 1
             fill = "rgba(255, 255, 255, 0.1)"
-            stretchCoefficient2 = 1
+            frequency = 77
+            setTimeout(() => {
+                speedCoefficient = 1.25
+                setTimeout(() => {
+                    speedCoefficient = 1
+                }, 50)
+            }, 50)
         })
     </script>
 </body>
