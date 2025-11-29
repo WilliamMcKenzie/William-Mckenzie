@@ -18,9 +18,9 @@
         Home
     </button>
     <button onclick="" class="bg-button" style="top: 10rem">
-        Generate Island
+        Generate
     </button>
-    <button onclick="" class="bg-button" style="top: 12rem">
+    <button onclick="resetCanvas()" class="bg-button" style="top: 12rem">
         Reset
     </button>
     <table style="position: absolute; bottom: 1rem; left: 1rem;">
@@ -58,10 +58,10 @@
         </tr>
     </table>
     <h3>
-        Terrain (+/- to zoom, WASD to move)
+        Mapgen (+/- to zoom, WASD to move)
     </h3>
     <script src="../../pixi.js"></script>
-    <script defer type="module" src="/gallery/terrain/terrain.js"></script>
+    <script src="/gallery/terrain/terrain.js"></script>
     <script>
         let selectedTile = 0
         function select(tile, element) {
