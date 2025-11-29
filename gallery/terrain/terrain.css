@@ -1,0 +1,25 @@
+.icon {
+    padding: 0;
+    margin: 16px;
+    width: 8px;
+    height: 8px;
+    scale: 4;
+    image-rendering: pixelated;
+    background-image: url("assets/tiles.png");
+    outline: 0.5px solid black;
+}
+
+.icon:hover {
+    outline: 0.5px solid white;
+}
+
+.selected {
+    outline: 1px solid white !important;
+}
+
+canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}

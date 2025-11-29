@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" style="background-color: #027D9C;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="terrain.css">
+    <title>WQM</title>
+</head>
+<body>
+    <button onclick="window.location.href = 'soundwave'" class="bg-button">
+        Next
+    </button>
+    <button onclick="window.location.href = '/'" class="bg-button" style="top: 6rem">
+        Home
+    </button>
+    <button onclick="" class="bg-button" style="top: 10rem">
+        Generate Island
+    </button>
+    <button onclick="" class="bg-button" style="top: 12rem">
+        Reset
+    </button>
+    <table style="position: absolute; bottom: 1rem; left: 1rem;">
+        <tr>
+            <td>
+                <button onclick="select(0, this)" class="icon selected" style="background-position: -16px 0;"></button>
+            </td>
+            <td>
+                <button onclick="select(1, this)" class="icon" style="background-position: -56px 0;"></button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button onclick="select(2, this)" class="icon" style="background-position: -64px 0;"></button>
+            </td>
+            <td>
+                <button onclick="select(4, this)" class="icon" style="background-position: -144px 0;"></button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button onclick="select(3, this)" class="icon" style="background-position: -88px 0;"></button>
+            </td>
+            <td>
+                <button onclick="select(5, this)" class="icon" style="background-position: -208px 0;"></button>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button onclick="select(6, this)" class="icon" style="background-position: 0 -8px;"></button>
+            </td>
+            <td>
+                <button onclick="select(7, this)" class="icon" style="background-position: -48px -8px;"></button>
+            </td>
+        </tr>
+    </table>
+    <h3>
+        Terrain (+/- to zoom, WASD to move)
+    </h3>
+    <script src="../../pixi.js"></script>
+    <script defer type="module" src="/gallery/terrain/terrain.js"></script>
+    <script>
+        let selectedTile = 0
+        function select(tile, element) {
+            selectedTile = tile
+            document.querySelector(".selected").classList.remove("selected")
+            element.classList.add("selected")
+        }
+    </script>
+</body>
+</html>

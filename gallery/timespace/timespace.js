@@ -73,7 +73,7 @@ function resizeCanvas() {
 document.addEventListener('mousemove', function(event) {
   cursorX = event.clientX
   cursorY = event.clientY
-});
+})
 
 let urls = document.querySelectorAll("a")
 
