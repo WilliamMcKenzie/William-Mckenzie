@@ -46,8 +46,19 @@ function codify(tileInt, variation = rand(5) % tileVariations[tileInt]) {
 }
 
 async function renderTiles() {
+    if (tileQueue.length == 0) {
+        return
+    }
+
     const tileSheet = await Assets.load("tiles")
-    const tilesContainer = new PIXI.ParticleContainer()
+    const tilesContainer = new PIXI.ParticleContainer({
+        dynamicProperties: {
+            position: false,
+            vertex: false,
+            rotation: false,
+            color: false,
+        }
+    })
 
     function addTile(x, y, tile) {
         const tileCode = codify(tile)
@@ -73,17 +84,28 @@ async function renderTiles() {
             x,
             y,
         })
+
         tilesContainer.addParticle(blend1)
         tilesContainer.addParticle(blend2)
         tilesContainer.addParticle(tileParticle)
+        tiles[y/8][x/8] = [tile, blend1, blend2, tileParticle, tilesContainer]
     }
 
     for (let tile of tileQueue) {
         let x = tile[0]
         let y = tile[1]
         let which = tile[2]
-        tiles[y][x] = which
-        addTile(x * 8, y * 8, which)
+        let add = tile[3]
+
+        if (add) {
+            addTile(x * 8, y * 8, which)
+        }
+        else if (tiles[y][x] != undefined) {
+            let container = tiles[y][x][4]
+            container.removeParticle(tiles[y][x][1], tiles[y][x][2], tiles[y][x][3])
+            app.stage.removeChild(container)
+            tiles[y][x] = undefined
+        }
     }
     
     tileQueue = []
@@ -138,7 +160,8 @@ async function resizeCanvas() {
 
             if (tiles[indexY][indexX] != undefined) {
                 continue
-            } else {
+            }
+            else {
                 tiles[indexY][indexX] = undefined
             }
         }
@@ -157,28 +180,35 @@ resetCanvas()
 window.addEventListener('resize', resetCanvas)
 document.addEventListener("mousedown", (e) => {
     dragging = true
+})
+document.addEventListener("mouseup", (e) => {
+    dragging = false
+
     let scale = (app.stage.scale.x * 8)
     let x = Math.floor(e.x / scale)
     let y = Math.floor(e.y / scale)
 
-    if (dragging && (tiles[y][x] != selectedTile)) {
-        if (e.target.nodeName == "CANVAS") {
-            tileQueue.push([x,y,selectedTile])
+    if (e.target.nodeName == "CANVAS") {
+        let tile = tiles[y][x]
+
+        if (tile != undefined) {
+            tileQueue.push([x, y, selectedTile, false])
         }
+        tileQueue.push([x, y, selectedTile, true])
     }
-})
-document.addEventListener("mouseup", () => {
-    dragging = false
 })
 document.addEventListener("mousemove", (e) => {
     let scale = (app.stage.scale.x * 8)
     let x = Math.floor(e.x / scale)
     let y = Math.floor(e.y / scale)
 
-    if (dragging && (tiles[y][x] != selectedTile)) {
-        if (e.target.nodeName == "CANVAS") {
-            tileQueue.push([x,y,selectedTile])
+    if (dragging && (e.target.nodeName == "CANVAS")) {
+        let tile = tiles[y][x]
+
+        if (tile != undefined) {
+            tileQueue.push([x, y, selectedTile, false])
         }
+        tileQueue.push([x, y, selectedTile, true])
     }
 })
 

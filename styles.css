@@ -61,6 +61,15 @@ button:hover {
   color: #458e9d;
 }
 
+
+.bg-container {
+  color: #fff;
+  position: absolute;
+  top: 4rem;
+  left: 1rem;
+}
+
+
 h3 {
   color: #fff;
   position: absolute;
