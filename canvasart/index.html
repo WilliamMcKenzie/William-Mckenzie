@@ -34,8 +34,8 @@
             Added:
             <ul>
                 <li><em>pixel:</em> The size of each pixel in our grid.</li>
-                <li><em>height:</em> Height of our sin wave.</li>
-                <li><em>period:</em> Period of our sin wave.</li>
+                <li><em>height:</em> Height of our sine wave.</li>
+                <li><em>period:</em> Period of our sine wave.</li>
                 <li><em>canvas:</em> Our canvas element from the html document.</li>
                 <li><em>context:</em> Our canvases context, which allows us to draw.</li>
                 <li><em>toPixel(x):</em> Snap any number into a grid.</li>
@@ -48,7 +48,7 @@
                 <button onclick="stationary()">Default</button>
                 <button onclick="zoomedin()">Zoomed in</button>
                 <button onclick="zoomedout()">Zoomed out</button>
-                <button onclick="wierd()">Wierd</button>
+                <button onclick="weird()">Weird</button>
                 <br>
                 <br>
                 <canvas class="canvas1"></canvas>
@@ -158,7 +158,7 @@ animate()
                     canvas1.height = 2.5 * height1
                 }
 
-                function wierd() {
+                function weird() {
                     pixelInput1.value = 2
                     heightInput1.value = 64
                     periodInput1.value = 1
@@ -178,7 +178,7 @@ animate()
             <br>
 
             <h1>Animation</h1>
-            Cool! But how do we make it oscillate? We can simply add a counter to the animation loop. With this new dynamic counter, add it to both shift and act as a coefficient to our sin function.
+            Cool! But how do we make it oscillate? We can simply add a counter to the animation loop. With this new dynamic counter, add it to both shift and act as a coefficient to our sine function.
     
             <br>
             <br>
@@ -344,7 +344,7 @@ animate()
 
             <br>
             <br>
-            <h1>More Sin</h1>
+            <h1>More Sine</h1>
             Now we have a good looking animation, as a little bonus we can add some fancy stuff. Frequency behaves strangely when working with pixels, you may have noticed at period = +- 1 our wave goes wild, but what about when -1 < period < 1?
     
             <br>
