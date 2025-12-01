@@ -154,3 +154,55 @@ async function generateDune() {
 
     applyOutline(addSandstone, tiles)
 }
+
+async function generateRuins() {
+    await resetCanvas()
+    const app = globalThis.__PIXI_APP__
+    const scale = app.stage.scale.x
+    const w = app.canvas.width / (scale * 8)
+    const h = app.canvas.height / (scale * 8)
+
+    let points = []
+    let chunks = {}
+
+    for (let i = 0; i < 40; i++) {
+        let x = Math.random() * w
+        let y = Math.random() * h
+
+        points.push([x,y])
+        chunks[[x,y]] = [6,7,7][randi() % 3]
+    }
+
+    let tiles = {}
+    for (let y = 0; y < h; y += 1) {
+        for (let x = 0; x < w; x += 1) {
+            let closest = [-1,-1]
+            let closestDist = w + h
+
+            for (let point of points) {
+                let dist = distanceFrom([x,y], point)
+                if (dist < closestDist) {
+                    closest = point
+                    closestDist = dist
+                } 
+            }
+
+            if (chunks[closest] == 2) {
+                tiles[[x,y]] = [x,y]
+            }
+
+            tileQueue.push([x, y, chunks[closest], false])
+            tileQueue.push([x, y, chunks[closest], true])
+        }
+    }
+
+    const addSandstone = (x,y) => {
+        if (randi() > 200) {
+            tileQueue.push([x, y, 4, false])
+            tileQueue.push([x, y, 4, true])
+            tiles[[x,y]] = [x,y]
+        }
+    }
+
+    applyOutline(addSandstone, tiles)
+}
