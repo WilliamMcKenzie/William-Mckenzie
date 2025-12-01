@@ -3,6 +3,7 @@ const Texture = PIXI.Texture
 const Assets = PIXI.Assets
 
 let app = new Application
+app.stage.scale = 6
 globalThis.__PIXI_APP__ = app
 
 const tileSize = 8
@@ -10,10 +11,10 @@ let tileSheet
 let tiles = []
 let tileQueue = []
 let tileVariations = [
-    4,
-    4,
+    10,
+    6,
     3,
-    7,
+    13,
     8,
     6, 
     6,
@@ -40,7 +41,7 @@ function force2Digits(n) {
     return str.padStart(2, "0")
 }
 
-function codify(tileInt, variation = rand(5) % tileVariations[tileInt]) {
+function codify(tileInt, variation = rand() % tileVariations[tileInt]) {
     let code = force2Digits(tileInt)
     return code + "_" + force2Digits(variation)
 }
@@ -97,13 +98,12 @@ async function renderTiles() {
         let which = tile[2]
         let add = tile[3]
 
-        if (add) {
+        if (add && tiles[y]) {
             addTile(x * 8, y * 8, which)
         }
-        else if (tiles[y][x] != undefined) {
+        else if (tiles[y] && tiles[y][x] != undefined) {
             let container = tiles[y][x][4]
             container.removeParticle(tiles[y][x][1], tiles[y][x][2], tiles[y][x][3])
-            app.stage.removeChild(container)
             tiles[y][x] = undefined
         }
     }
@@ -112,7 +112,7 @@ async function renderTiles() {
     app.stage.addChild(tilesContainer)
 }
 
-async function init() {
+async function init(scale) {
     await app.init(
     {
         background : "#1f1f1f",
@@ -129,17 +129,22 @@ async function init() {
         data: { texture: tileSheet }
     })
     
-    app.stage.scale = 6
+    app.stage.scale = scale
     app.ticker.add(renderTiles)
 }
 
 async function resetCanvas() {
+    let scale = 6
     if (app != undefined) {
-        app.stage.removeChildren()
+        scale = app.stage.scale.x
+        app.stage.destroy({
+            children: true
+        })
+        app.stage = new PIXI.Container
     }
     dragging = false
     tiles = []
-    await init()
+    await init(scale)
     resizeCanvas()
 }
 

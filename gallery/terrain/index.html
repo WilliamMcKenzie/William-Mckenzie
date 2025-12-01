@@ -17,13 +17,13 @@
     <button onclick="window.location.href = '/'" class="bg-button" style="top: 6rem">
         Home
     </button>
-    <button onclick="" class="bg-button" style="top: 10rem">
+    <button onclick="generateIsland()" class="bg-button" style="top: 10rem">
         Generate island
     </button>
-    <button onclick="" class="bg-button" style="top: 12rem">
+    <button onclick="generateDune()" class="bg-button" style="top: 12rem">
         Generate dune
     </button>
-    <button onclick="" class="bg-button" style="top: 14rem">
+    <button onclick="generateRuins()" class="bg-button" style="top: 14rem">
         Generate ruins
     </button>
     <button onclick="resetCanvas()" class="bg-button" style="top: 16rem">
@@ -64,10 +64,11 @@
         </tr>
     </table>
     <h3>
-        Terrain generator (+/- to zoom, WASD to move)
+        Terrain generator (+/- to zoom)
     </h3>
     <script src="../../pixi.js"></script>
     <script src="/gallery/terrain/terrain.js"></script>
+    <script src="/gallery/terrain/generate.js"></script>
     <script>
         let selectedTile = 0
         function select(tile, element) {
