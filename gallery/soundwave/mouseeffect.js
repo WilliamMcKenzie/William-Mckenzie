@@ -1,4 +1,4 @@
-let seed = 96
+let seed = 48
 
 function hover() {
     const radius = 160

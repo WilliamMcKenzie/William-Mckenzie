@@ -7,8 +7,8 @@ resizeCanvas()
 let cursorX = window.innerWidth / 2
 let cursorY = window.innerHeight / 2
 
-const tealbg = "#027D9C"
-const orangbg = "#e07a5f"
+const tealbg = "var(--teal)"
+const orangbg = "var(--orange)"
 const pixel = 8
 let frequency = 77
 let fill = "rgba(255, 255, 255, 0.1)"

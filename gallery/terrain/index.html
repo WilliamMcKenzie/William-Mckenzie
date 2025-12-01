@@ -3,69 +3,69 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/gallery/styles.css">
     <link rel="stylesheet" href="/gallery/terrain/terrain.css">
     <title>WQM</title>
 </head>
 <body>
-    <button onclick="window.location.href = '/gallery/vornoi'" class="bg-button">
-        Next
-    </button>
-    <button onclick="window.location.href = '/'" class="bg-button" style="top: 6rem">
-        Home
-    </button>
-    <button onclick="generateIsland()" class="bg-button" style="top: 10rem">
+    <div class="container">
+        <h3>
+            Terrain generator (+/- to zoom)
+        </h3>
+        <button onclick="window.location.href = '/gallery/vornoi'" class="btn">
+            Next
+        </button>
+        <button onclick="window.location.href = '/'" class="btn">
+            Home
+        </button>
+        <small_break></small_break>
+        <button onclick="generateIsland()" class="btn" style="top: 10rem">
         Generate island
-    </button>
-    <button onclick="generateDune()" class="bg-button" style="top: 12rem">
-        Generate dune
-    </button>
-    <button onclick="generateRuins()" class="bg-button" style="top: 14rem">
-        Generate ruins
-    </button>
-    <button onclick="resetCanvas()" class="bg-button" style="top: 16rem">
-        Reset
-    </button>
-    <table style="position: absolute; bottom: 1rem; left: 1rem;">
-        <tr>
-            <td>
-                <button onclick="select(0, this)" class="icon selected" style="background-position: -16px 0;"></button>
-            </td>
-            <td>
-                <button onclick="select(1, this)" class="icon" style="background-position: -56px 0;"></button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button onclick="select(2, this)" class="icon" style="background-position: -64px 0;"></button>
-            </td>
-            <td>
-                <button onclick="select(4, this)" class="icon" style="background-position: -144px 0;"></button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button onclick="select(3, this)" class="icon" style="background-position: -88px 0;"></button>
-            </td>
-            <td>
-                <button onclick="select(5, this)" class="icon" style="background-position: -208px 0;"></button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <button onclick="select(6, this)" class="icon" style="background-position: 0 -8px;"></button>
-            </td>
-            <td>
-                <button onclick="select(7, this)" class="icon" style="background-position: -48px -8px;"></button>
-            </td>
-        </tr>
-    </table>
-    <h3>
-        Terrain generator (+/- to zoom)
-    </h3>
+        </button>
+        <button onclick="generateDune()" class="btn" style="top: 12rem">
+            Generate dune
+        </button>
+        <button onclick="generateRuins()" class="btn" style="top: 14rem">
+            Generate ruins
+        </button>
+        <button onclick="resetCanvas()" class="btn" style="top: 16rem">
+            Reset
+        </button>
+        <full_break></full_break>
+        <table>
+            <tr>
+                <td>
+                    <button onclick="select(0, this)" class="icon selected" style="background-position: -16px 0;"></button>
+                </td>
+                <td>
+                    <button onclick="select(1, this)" class="icon" style="background-position: -56px 0;"></button>
+                </td>
+                <td>
+                    <button onclick="select(3, this)" class="icon" style="background-position: -88px 0;"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="select(2, this)" class="icon" style="background-position: -64px 0;"></button>
+                </td>
+                <td>
+                    <button onclick="select(4, this)" class="icon" style="background-position: -144px 0;"></button>
+                </td>
+                <td>
+                    <button onclick="select(5, this)" class="icon" style="background-position: -208px 0;"></button>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <button onclick="select(6, this)" class="icon" style="background-position: 0 -8px;"></button>
+                </td>
+                <td>
+                    <button onclick="select(7, this)" class="icon" style="background-position: -48px -8px;"></button>
+                </td>
+            </tr>
+        </table>
+    </div>
     <script src="../../pixi.js"></script>
     <script src="/gallery/terrain/terrain.js"></script>
     <script src="/gallery/terrain/generate.js"></script>

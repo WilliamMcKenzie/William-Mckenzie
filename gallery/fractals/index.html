@@ -3,41 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/gallery/styles.css">
     <title>WQM</title>
 </head>
 <body>
     <canvas class="canvas"></canvas>
-    <button onclick="window.location.href = '/gallery/soundwave'" class="bg-button">
-        Next
-    </button>
-    <button onclick="window.location.href = '/'" class="bg-button" style="top: 6rem">
-        Home
-    </button>
-    <button onclick="setEscapeTime(mendelbrot)" class="bg-button" style="top: 12rem">
-        Mendelbrot's set
-    </button>
-    <button onclick="setEscapeTime(flame)" class="bg-button" style="top: 14rem">
-        Big bang
-    </button>
-    <button onclick="setEscapeTime(strange)" class="bg-button" style="top: 10rem">
-        Into the seahorse
-    </button>
-    <button onclick="setColors(3)" class="bg-button" style="top: 19rem">
-        Colors1
-    </button>
-    <button onclick="setColors(2)" class="bg-button" style="top: 21rem">
-        Colors2
-    </button>
-    <button onclick="setColors(1)" class="bg-button" style="top: 23rem">
-        Colors3
-    </button>
-    <h3>
-        Fractals (+/- to zoom, WASD to move)
-    </h3>
+    <div class="container transparent">
+        <h3>
+            Fractals (+/- to zoom, WASD to move)
+        </h3>
+        <button onclick="window.location.href = '/gallery/soundwave'" class="btn">
+            Next
+        </button>
+        <button onclick="window.location.href = '/'" class="btn">
+            Home
+        </button>
+        <small_break></small_break>
+        <button onclick="setEscapeTime(mendelbrot)" class="btn">
+            Mendelbrot's set
+        </button>
+        <button onclick="setEscapeTime(flame)" class="btn">
+            Big bang
+        </button>
+        <button onclick="setEscapeTime(strange)" class="btn">
+            Into the seahorse
+        </button>
+        <full_break></full_break>
+        <button onclick="setColors(3)" class="btn">
+            Colors1
+        </button>
+        <button onclick="setColors(2)" class="btn">
+            Colors2
+        </button>
+        <button onclick="setColors(1)" class="btn">
+            Colors3
+        </button>
+    </div>
     <script src="/gallery/fractals/fractal.js"></script>
 </body>
 </html>

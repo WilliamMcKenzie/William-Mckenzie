@@ -3,38 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/gallery/styles.css">
     <title>WQM</title>
 </head>
 <body>
     <canvas class="canvas"></canvas>
-    <button onclick="window.location.href = '/gallery/vortex'" class="bg-button">
-        Next
-    </button>
-    <button onclick="window.location.href = '/'" class="bg-button" style="top: 6rem">
-        Home
-    </button>
-    <h3>
-        Soundwave (click for special effect)
-    </h3>
+    <div class="container transparent">
+        <h3>
+            Soundwave
+        </h3>
+        <button onclick="window.location.href = '/gallery/vortex'" class="btn">
+            Next
+        </button>
+        <button onclick="window.location.href = '/'" class="btn">
+            Home
+        </button>
+    </div>
     <script src="/gallery/soundwave/soundwave.js"></script>
     <script src="/gallery/soundwave/mouseeffect.js"></script>
-    <script>
-        document.addEventListener("mousedown", (_) => {
-            changebg(orangbg)
-            fill = "rgba(2, 125, 156, 0.3)"
-            frequency = 145
-            seed = 128
-        })
-        document.addEventListener("mouseup", (_) => {
-            changebg(tealbg)
-            fill = "rgba(255, 255, 255, 0.1)"
-            frequency = 100
-            seed = 96
-        })
-    </script>
 </body>
 </html>

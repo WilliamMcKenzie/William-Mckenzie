@@ -13,6 +13,10 @@ html {
   line-height: 1.6;
   overflow-x: hidden;
   font-family: Main;
+
+  --teal: #027D9C;
+  --light-teal: #458e9d;
+  --orange: #e07a5f;
 }
 
 body {
@@ -43,38 +47,8 @@ button {
   border: none;
 }
 button:hover {
-  background-color: #458e9d;
+  background-color: var(--light-teal);
   color: #fff;
-}
-
-.bg-button {
-  position: absolute;
-  top: 4rem;
-  left: 1rem;
-  background-color: transparent;
-  outline: none;
-  border: none;
-  color: #fff !important;
-}
-.bg-button:hover {
-  background-color: #fff;
-  color: #458e9d !important;
-}
-
-
-.bg-container {
-  color: #fff;
-  position: absolute;
-  top: 4rem;
-  left: 1rem;
-}
-
-
-h3 {
-  color: #fff;
-  position: absolute;
-  top: 0;
-  left: 1rem;
 }
 
 
@@ -89,7 +63,7 @@ h3 {
   left: 0;
   z-index: -1;
   background: url("./noise.png") repeat scroll left top;
-  background-color: #027D9C;
+  background-color: var(--teal);
 }
 
 .visible {
@@ -159,15 +133,15 @@ pre {
 }
 
 a {
-  color: #458e9d;
+  color: var(--light-teal);
   margin-top: 0.2rem;
   text-decoration: none;
 }
 a:visited {
-  color:#458e9d;
+  color: var(--light-teal);
 }
 a:hover {
-  color: #e07a5f;
+  color: var(--orange);
 }
 
 .subtle {
@@ -177,7 +151,7 @@ a:hover {
   color: #666;
 }
 .subtle:hover {
-  color: #e07a5f;
+  color: var(--orange);
 }
 
 a[href*='//']{
