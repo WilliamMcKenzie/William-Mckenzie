@@ -54,11 +54,11 @@ button:hover {
   background-color: transparent;
   outline: none;
   border: none;
-  color: #fff;
+  color: #fff !important;
 }
 .bg-button:hover {
   background-color: #fff;
-  color: #458e9d;
+  color: #458e9d !important;
 }
 
 
