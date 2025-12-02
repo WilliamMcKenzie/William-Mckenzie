@@ -2,6 +2,10 @@ function randomBetween(x, y) {
     return x + Math.round(Math.random() * (y - x))
 }
 
+function randomSign() {
+    return Math.random() > 0.5 ? 1 : -1
+}
+
 function randi() {
     return Math.floor(Math.random() * 999)
 }
@@ -155,6 +159,38 @@ async function generateDune() {
     applyOutline(addSandstone, tiles)
 }
 
+class Creature {
+    constructor (x, y, velocityX, velocityY) {
+        this.x = x
+        this.y = y
+        this.velocityX = velocityX
+        this.velocityY = velocityY
+        this.lifetime = 0
+        this.stamina = 8
+    }
+
+    Move(tiles) {
+        this.x += this.velocityX
+        this.y += this.velocityY
+        this.lifetime += 1
+
+        if (this.lifetime % this.stamina == 0) {
+            this.lifetime = 0
+            this.stamina = randi() % 16
+            this.velocityX = randomSign()
+            this.velocityY = randomSign()
+        }
+
+        let x = Math.round(this.x)
+        let y = Math.round(this.y)
+
+        if (!tiles[[x,y]]) {
+            tileQueue.push([x, y, 7, false])
+            tileQueue.push([x, y, 7, true])
+        }
+    }
+}
+
 async function generateRuins() {
     await resetCanvas()
     const app = globalThis.__PIXI_APP__
@@ -170,7 +206,7 @@ async function generateRuins() {
         let y = Math.random() * h
 
         points.push([x,y])
-        chunks[[x,y]] = [6,7,7][randi() % 3]
+        chunks[[x,y]] = [6,6,6,7,7,8][randi() % 6]
     }
 
     let tiles = {}
@@ -187,7 +223,7 @@ async function generateRuins() {
                 } 
             }
 
-            if (chunks[closest] == 2) {
+            if (chunks[closest] == 8) {
                 tiles[[x,y]] = [x,y]
             }
 
@@ -196,15 +232,25 @@ async function generateRuins() {
         }
     }
 
-    const addSandstone = (x,y) => {
-        if (randi() > 200) {
-            tileQueue.push([x, y, 4, false])
-            tileQueue.push([x, y, 4, true])
-            tiles[[x,y]] = [x,y]
+    const addRubble = (x,y) => {
+        tileQueue.push([x, y, 7, false])
+        tileQueue.push([x, y, 7, true])
+    }
+
+    applyOutline(addRubble, tiles)
+
+    let creatures = []
+    for (let point of points) {
+        if (Math.random() > 0.5) {
+            creatures.push(new Creature(point[0], point[1], 1, 0))
         }
     }
 
-    applyOutline(addSandstone, tiles)
+    for (let i = 0; i < 32; i++) {
+        for (let creature of creatures) {
+            creature.Move(tiles)
+        }
+    }
 }
 
 async function generateKingdom() {

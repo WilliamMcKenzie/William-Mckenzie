@@ -6,6 +6,9 @@ let app = new Application
 app.stage.scale = 6
 globalThis.__PIXI_APP__ = app
 
+let cursorX = 0
+let cursorY = 0
+
 const tileSize = 8
 let tileSheet
 let tiles = []
@@ -22,9 +25,7 @@ let tileVariations = [
     7,
 ]
 
-let dragging = false
 let lookupTable = []
-
 for (var i = 0; i < 100000; i++) {
   lookupTable.push(Math.random() * 101|0)
 }
@@ -146,6 +147,8 @@ async function resetCanvas() {
     tiles = []
     await init(scale)
     resizeCanvas()
+
+    // Reset loadedchunks on server
 }
 
 async function resizeCanvas() {
@@ -178,43 +181,13 @@ resetCanvas()
 
 
 
-
-
-
-
 window.addEventListener('resize', resetCanvas)
-document.addEventListener("mousedown", (e) => {
-    dragging = true
-})
-document.addEventListener("mouseup", (e) => {
-    dragging = false
-
-    let scale = (app.stage.scale.x * 8)
-    let x = Math.floor(e.x / scale)
-    let y = Math.floor(e.y / scale)
-
-    if (e.target.nodeName == "CANVAS") {
-        let tile = tiles[y][x]
-
-        if (tile != undefined) {
-            tileQueue.push([x, y, selectedTile, false])
-        }
-        tileQueue.push([x, y, selectedTile, true])
-    }
-})
 document.addEventListener("mousemove", (e) => {
     let scale = (app.stage.scale.x * 8)
-    let x = Math.floor(e.x / scale)
-    let y = Math.floor(e.y / scale)
+    cursorX = Math.floor(e.x / scale)
+    cursorY = Math.floor(e.y / scale)
 
-    if (dragging && (e.target.nodeName == "CANVAS")) {
-        let tile = tiles[y][x]
-
-        if (tile != undefined) {
-            tileQueue.push([x, y, selectedTile, false])
-        }
-        tileQueue.push([x, y, selectedTile, true])
-    }
+    // Call to map to get new chunk if needed
 })
 
 document.addEventListener('keydown', function(event) {

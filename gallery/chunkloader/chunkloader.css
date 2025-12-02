@@ -5,7 +5,7 @@
     height: 8px;
     scale: 4;
     image-rendering: pixelated;
-    background-image: url("/gallery/assets/tiles.png");
+    background-image: url("assets/tiles.png");
     outline: 0.5px solid black;
 }
 

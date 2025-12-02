@@ -1,12 +1,27 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>WQM</title>
-</head>
-<body>
+    <!-- googley analytics, you can copy the id idc -->
+        <script>
+            function activate (w,d,s,l,i) {
+                w[l] = w[l] || []
+                w[l].push({'gtm.start': new Date().getTime(),event:'gtm.js'})
+                var f = d.getElementsByTagName(s)[0]
+                var j = d.createElement(s),dl=l!='dataLayer'?'&l='+l:''
+                j.async = true
+                j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl
+                f.parentNode.insertBefore(j,f)
+            }
+
+            activate(window,document,'script','dataLayer','GTM-NKL266R5')
+        </script>
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <title>WQM</title>
+    </head>
+    <body>
     <canvas onclick="toggleVisibility()" class="canvas"></canvas>
     <button onclick="window.location.replace('./gallery/terrain')" class="hidden" style="position: absolute; top: 1rem; left: 1rem;">
         Gallery
