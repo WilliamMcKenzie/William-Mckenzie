@@ -206,3 +206,8 @@ async function generateRuins() {
 
     applyOutline(addSandstone, tiles)
 }
+
+async function generateKingdom() {
+    let data = (await (await fetch("https://dummyjson.com/test")).json()).data
+    console.log(data)
+}
