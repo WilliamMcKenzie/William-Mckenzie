@@ -55,4 +55,5 @@ full_break {
 
 .input {
   margin-top: 0.4rem;
+  pointer-events: all;
 }
