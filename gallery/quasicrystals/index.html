@@ -18,23 +18,40 @@
         </button>
         <button onclick="window.location.href = '/'" class="btn">
             Home
-        </button><small_break></small_break>
+        </button>
+        <small_break></small_break>
+        <button onclick="change(2.9)" class="btn" style="top: 10rem">
+            The wave
+        </button>
+        <button onclick="change(4.1)" class="btn" style="top: 12rem">
+            Quilt
+        </button>
+        <button onclick="change(3.4)" class="btn" style="top: 12rem">
+            Flock
+        </button>
+        <button onclick="change(7)" class="btn" style="top: 12rem">
+            Automata
+        </button>
+        <button onclick="change(5.9)" class="btn" style="top: 12rem">
+            Hexagonal
+        </button>
         <input class="input" id="count" onchange="change()" placeholder="seed" type="number" value="7">
     </div>
     <script src="/gallery/quasicrystals/quasicrystals.js"></script>
     <script>
-        function change() {
-            angles = parseInt(document.getElementById("count").value)
+        function change(value = parseFloat(document.getElementById("count").value)) {
+            document.getElementById("count").value = value
+            angles = value
         }
         document.addEventListener("mousedown", (_) => {
             changebg(orangbg)
             fill = [242, 152, 119]
-            angles = parseInt(document.getElementById("count").value) + 2
+            angles = parseFloat(document.getElementById("count").value) + 2
         })
         document.addEventListener("mouseup", (_) => {
             changebg(tealbg)
             fill = [69, 142, 157]
-            angles = parseInt(document.getElementById("count").value)
+            angles = parseFloat(document.getElementById("count").value)
         })
     </script>
 </body>

@@ -69,7 +69,7 @@ for (url of urls) {
     url.addEventListener("mouseenter", (_) => {
         changebg(orangbg)
         fill = [242, 152, 119]
-        angles = 39
+        angles = 2.9
     })
     url.addEventListener("mouseleave", (_) => {
         changebg(tealbg)

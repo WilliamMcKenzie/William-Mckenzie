@@ -26,6 +26,7 @@ body {
 
 main {
   padding: 2rem;
+  border-radius: 3px;
   background: url("./noise.png") repeat scroll left top;
   background-color: #fff;
 }
