@@ -24,17 +24,17 @@
     <script src="/gallery/quasicrystals/quasicrystals.js"></script>
     <script>
         function change() {
-            angles = document.getElementById("count").value
+            angles = parseInt(document.getElementById("count").value)
         }
         document.addEventListener("mousedown", (_) => {
             changebg(orangbg)
             fill = [242, 152, 119]
-            angles = document.getElementById("count").value + 2
+            angles = parseInt(document.getElementById("count").value) + 2
         })
         document.addEventListener("mouseup", (_) => {
             changebg(tealbg)
             fill = [69, 142, 157]
-            angles = document.getElementById("count").value
+            angles = parseInt(document.getElementById("count").value)
         })
     </script>
 </body>
