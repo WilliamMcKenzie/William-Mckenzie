@@ -9,11 +9,15 @@ let cursorY = window.innerHeight / 2
 
 const tealbg = "#027D9C"
 const orangbg = "#e07a5f"
-const pixel = 8
+const pixel = 10
 
 let fill = [69, 142, 157]
 let angles = 7
 let offset = 0
+
+function randi() {
+    return Math.floor(Math.random() * 999)
+}
 
 function changebg(color) {
     html.style.backgroundColor = color
@@ -27,7 +31,7 @@ function pixellate(x) {
 function getOpacity(x, y, angle) {
     let angledX = Math.cos(angle) * x
     let angledY = Math.sin(angle) * y
-    return Math.cos(angledX + angledY + offset) * 100000
+    return Math.cos(angledX + angledY + offset) * 100
 }
 
 function getColor(x, y) {
@@ -48,7 +52,7 @@ function animate() {
 
     for (let x = -canvas.width/2; x < canvas.width/2; x += pixel) {
         for (let y = -canvas.height/2; y < canvas.height/2; y += pixel) {
-            ctx.fillStyle = getColor(x/12, y/12)
+            ctx.fillStyle = getColor(x/pixel, y/pixel)
             ctx.fillRect(pixellate(x + canvas.width/2), pixellate(y + canvas.height/2), pixel, pixel)
         }
     }
@@ -65,11 +69,13 @@ function resizeCanvas() {
 
 const urls = document.querySelectorAll("a")
 
+let whichbg = 0
 for (url of urls) {
     url.addEventListener("mouseenter", (_) => {
         changebg(orangbg)
         fill = [242, 152, 119]
-        angles = 2.9
+        angles = [2.9, 4.1, 3.7, 5.9][whichbg % 4]
+        whichbg += 1
     })
     url.addEventListener("mouseleave", (_) => {
         changebg(tealbg)
