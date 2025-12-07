@@ -74,7 +74,7 @@ for (url of urls) {
     url.addEventListener("mouseenter", (_) => {
         changebg(orangbg)
         fill = [242, 152, 119]
-        angles = [2.9, 4.1, 3.7, 5.9][whichbg % 4]
+        angles = 2 + 7 * Math.random()
         whichbg += 1
     })
     url.addEventListener("mouseleave", (_) => {
