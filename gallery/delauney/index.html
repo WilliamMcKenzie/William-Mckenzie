@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="/gallery/styles.css">
+    <title>WQM</title>
+</head>
+<body>
+    <canvas style="transform: scale(1,1)" class="canvas"></canvas>
+    <div class="container transparent">
+        <h3>
+            Delaunator
+        </h3>
+        <button onclick="window.location.href = '/gallery/'" class="btn">
+            Next
+        </button>
+        <button onclick="window.location.href = '/'" class="btn">
+            Home
+        </button>
+        <small_break></small_break>
+        <button onclick="step(100)" class="btn">
+            100 points
+        </button>
+        <button onclick="nextCircle()" class="btn">
+            Next circle
+        </button>
+    </div>
+    <script src="/gallery/delauney/delauney.js"></script>
+    <script src="/gallery/delauney/drawers.js"></script>
+    <script>
+        let which = 0
+        start()
+
+        function nextCircle() {
+            which += 1
+            which = which % triangles.length
+            drawAll()
+        }
+    </script>
+</body>
+</html>
