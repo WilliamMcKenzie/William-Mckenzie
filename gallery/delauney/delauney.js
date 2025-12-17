@@ -135,8 +135,8 @@ async function start() {
 
 async function step(n) {
     for(let i = 0; i < n; i++) {
-        const randX = () => bound/4 + Math.random() * (bound/2)
-        const randY = () => bound/2 + Math.random() * (bound/2)
+        const randX = () => Math.random() * canvas.width
+        const randY = () => Math.random() * canvas.height
         connectPoint(new Point(randX(), randY()))
     }
     drawAll()
