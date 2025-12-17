@@ -131,7 +131,6 @@ function connectPoint(pt) {
 
 async function start() {
     superTriangle()
-    drawAll()
 }
 
 async function step(n) {
