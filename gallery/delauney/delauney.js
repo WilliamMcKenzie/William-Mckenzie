@@ -85,13 +85,15 @@ function pixellate(x) {
 
 
 function superTriangle() {
-    points = [
-        new Point(bound, bound),
-        new Point(bound/2, 0),
-        new Point(0, bound),
-    ]
+    let p1 =  new Point(0, 0)
+    let p2 =  new Point(canvas.width, 0)
+    let p3 =  new Point(0, canvas.height)
+    let p4 =  new Point(canvas.width, canvas.height)
+
+    points = [p1,p2,p3,p4]
     triangles = [
-        new Triangle(...points)
+        new Triangle(p1,p2,p3),
+        new Triangle(p4,p2,p3)
     ]
 }
 
