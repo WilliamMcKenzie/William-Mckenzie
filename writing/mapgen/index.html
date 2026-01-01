@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>William McKenzie</title>
+</head>
+<body>
+    <style>
+        .project {
+            display: flex;
+        }
+        .project pre {
+            margin: 0;
+        }
+
+        img {
+            display: block;
+        }
+    </style>
+    <div class="nav-box">
+        <div class="nav">
+            <div>
+                <h2>William McKenzie</h2>
+                <links>
+                    <a class="spaced" href="/">About</a>
+                    <a class="spaced" href="/gallery">Gallery</a>
+                    <a class="spaced" href="/writing">Writing</a>
+                </links>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h1>Idea</h1>
+        After playing around with <a href="/gallery/voronoi">voronoi diagrams</a> and <a href="/gallery/delaunay">delaunay triangles</a> I had an idea for a new map system to implement in <a href="https://play.google.com/store/apps/details?id=com.williamqm.mmorelam&pli=1">Kingdom Crushers</a>. By nature of voronoi diagrams, you are given a large handful of cells which each have an origin point (somewhat) lying at the cells center. What if you made every single part of map generation take place around these cells? It would be a hell of a lot cleaner.
+        <br>
+        <br>
+        Things you could use cells for:
+        <ul>
+            <li><em>Chunks:</em> Send each player the cell they are in instead of breaking the world into chunks.</li>
+            <li><em>Biomes:</em> Each cell can have a biome parameter.</li>
+            <li><em>Terrain:</em> Using the biome, create unique terrain for each cell locally.</li>
+            <li><em>Enemies:</em> Also using the biome, populate each cell with enemies instead of randomly placing them.</li>
+        </ul>
+        <br>
+        Since maps are usually pretty big, I decided to use Go for this project. I was already hitting some issues with Javascript in my <a href="/gallery/terrain">terrain</a> project at ~1/10 the size I wanted to generate. The package itself does all the math delaunay stuff without external libraries (for practice), and lets users build their own maps using "building block" biomes.
+        <br>
+        <br>
+        <h1>Modifier</h1>
+        The highest level class is the <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/world.go#L8">world</a>, the only thing it has of importance is the size and it's <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/cell.go#L7">cells</a> in a list. Cells have their own class as well, and include a list of their <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/tile.go#L3">tiles</a>.
+        The idea is that we want to modify each cell locally, and we can do so through <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/modifier.go#L9">modifiers</a>. They are just functions which take a *Cell as a parameter and change it in some way.
+        <br>
+        <pre><code>// This function creates a new modifier, which fills all the cells tile with some integer value.
+func NewFill(value int8) atlas.Modifier {
+	return func(cell *Cell) {
+		for idx := range cell.Tiles {
+			tile := &(cell.Tiles[idx])
+			tile.Value = value
+		}
+	}
+}</code></pre>
+        <br>
+        <h1>Biomes</h1>
+        Think of <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/biome.go#L3">biomes</a> as lists of modifiers. If a cell is assigned a biome, each modifier is executed on it in order from first to last. So for example using our previous NewFill,
+        <pre><code>// This creates a new biome, applied to a cell it would fill all the cells with "1" then fill them all with "2".
+// The resulting cells tiles would all have a value of "2".
+biome := atlas.NewBiome(
+    Fill(1),
+    Fill(2),
+)</code></pre>
+        <br>
+        <h1>Infection</h1>
+        The final step is actually applying these biomes. While you could just apply a biome manually to a cell by invoking each modifier in it, that wouldn't be very fun. It also wouldn't generate anything cool. I opted to implement a spreading effect, where it selects a cell from your world at random as a "patient-0" and given a list of biomes propogates through your world applying biomes based on the distance of a cell from patient-0. 
+        <pre><code>// Lets make a simple "island" world.
+DEEP_WATER := 0
+WATER := 1
+SAND := 2
+GRASS := 3
+
+// Make our biomes
+deep := atlas.NewBiome(Fill(DEEP_WATER))
+shallow := atlas.NewBiome(Fill(WATER))
+sandy := atlas.NewBiome(Fill(SAND))
+grassy := atlas.NewBiome(Fill(GRASS))
+biomes := []atlas.Biome{
+    grassy,
+    grassy,
+    grassy,
+    sandy,
+    shallow,
+    deep,
+}
+
+// Infect
+decay := 1
+world := NewTemplateWorld(WORLD_SIZE)
+world.Infect(biomes, decay)
+</code></pre>
+        A decay of 1 will mean that the first infected cell will be biomes[0], and then all the adjacent cells will be biomes[1], and so on. With a decay of 0.5, the first cell would be biomes[0], the adjacent cells would be biomes[0], and the adjacent to the adjacent cells would be biomes[1].
+        <br>
+        <br>
+        <h1>Visuals</h1>
+        Drawing the above world on a canvas gives us this
+        <img width="500px" src="./map1.png">
+        <br>
+        <br>
+        There are a handful of built in Modifiers which you can use in your biomes.
+        <table>
+            <tr class="project">
+                <td>
+                    <pre><code>// Fill every tile in a cell with some value
+biome1 := atlas.NewBiome(
+    atlas.NewFill(1),
+)
+biome2 := atlas.NewBiome(
+    atlas.NewFill(1),
+)
+biomes := []atlas.Biome{
+    biome1,
+    biome2,
+}</code></pre>
+                </td> 
+                <td><img width="250px" src="./map2.png"></td>
+            </tr>
+            <tr class="project">
+                <td>
+                    <pre><code>// Break each cell into a voronoi diagram
+voronoiPoints := 10
+biome1 := atlas.NewBiome(
+    atlas.NewVoronoi(voronoiPoints, DEEP_WATER,WATER),
+)
+biomes := []atlas.Biome{
+    biome1,
+}</code></pre>
+                </td> 
+                <td><img width="250px" src="./map3.png"></td>
+            </tr>
+            <tr class="project">
+                <td>
+                    <pre><code>// Turn each cell into a quasicrystal
+crystalSeed := 5
+biome1 := atlas.NewBiome(
+    atlas.NewPattern(crystalSeed, DEEP_WATER,WATER),
+)
+biomes := []atlas.Biome{
+    biome1,
+}</code></pre>
+                </td> 
+                <td><img width="250px" src="./map4.png"></td>
+            </tr>
+            <tr class="project">
+                <td>
+                    <pre><code>// Turn each cell into a quasicrystal (centered on the cells origin)
+crystalSeed := 5
+biome1 := atlas.NewBiome(
+    atlas.NewCropCircle(crystalSeed, DEEP_WATER,WATER),
+)
+biomes := []atlas.Biome{
+    biome1,
+}</code></pre>
+                </td> 
+                <td><img width="250px" src="./map5.png"></td>
+            </tr>
+            <tr class="project">
+                <td>
+                    <pre><code>// Apply a border to perimeter of each cell
+biome1 := atlas.NewBiome(
+    atlas.NewFill(DEEP_WATER),
+    atlas.NewBorder(WATER),
+)
+biomes := []atlas.Biome{
+    biome1,
+}</code></pre>
+                </td> 
+                <td><img width="250px" src="./map6.png"></td>
+            </tr>
+        </table>
+        <br>
+        <h1>Advanced Island</h1>
+        Lets make a dynamic looking island world.
+        <br>
+        <br>
+        <h3>Biome 1</h3>
+        To start, lets use the <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/modifier.go#L227">selective border</a> modifier. We break each cell into either grass or deep water, then apply a selective border of sand and shallow water to the grass.
+        <img width="500px" src="./map8.png">
+        <a href="http://100.28.2.231:3000/">live demo</a>
+        <pre><code>// Selective border's contract is: border value, which value to apply the border to
+// Selective border is a bit deceptive, as it replaces the tile instead of placing a border around the tile...
+// So we first apply a border of water, then afterwards a border of sand will be inside the border of water
+voronoiPoints := 10
+biome1 := atlas.NewBiome(
+    atlas.NewVoronoi(voronoiPoints, DEEP_WATER,GRASS)
+    atlas.NewSelectiveBorder(WATER, GRASS)
+    atlas.NewSelectiveBorder(SAND, GRASS)
+)
+biomes := []atlas.Biome{biome1}
+
+// Infect
+decay := 0
+world := NewTemplateWorld(WORLD_SIZE)
+world.Infect(biomes, decay)
+</code></pre>
+        <br>
+        <br>
+        <h3>Biome 2</h3>
+        Next, make bigger chunks of island with less water distance between them. Lets just fill each cell with grass, then border it in water and apply a border of sand to the grass.
+        <img width="500px" src="./map9.png">
+        <a href="http://100.28.2.231:4000/">live demo</a>
+        <pre><code>biome2 := atlas.NewBiome(
+    atlas.NewFill(GRASS)
+    atlas.NewBorder(DEEP_WATER)
+    atlas.NewSelectiveBorder(SAND, GRASS)
+)
+biomes := []atlas.Biome{biome2}
+
+// Infect
+decay := 0
+world := NewTemplateWorld(WORLD_SIZE)
+world.Infect(biomes, decay)
+</code></pre>
+        <br>
+        <br>
+        <h3>Biome 3</h3>
+        Finally, we can make some more chaotic sandbars using the pattern modifier. We generate a pattern of grass and water, then apply selective borders same as before. We utilize the <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/modifier.go#L262">external selective border</a> this time. 
+        <img width="500px" src="./map10.png">
+        <a href="http://100.28.2.231:5000/">live demo</a>
+        <pre><code>patternSeed := 7
+biome3 := atlas.NewBiome(
+    atlas.NewPattern(patternSeed, DEEP_WATER,GRASS)
+    atlas.NewSelectiveExternalBorder(WATER, GRASS)
+    atlas.NewSelectiveBorder(SAND, GRASS)
+)
+biomes := []atlas.Biome{biome3}
+
+// Infect
+decay := 0
+world := NewTemplateWorld(WORLD_SIZE)
+world.Infect(biomes, decay)
+</code></pre>
+    <br>
+    <br>
+    <h3>Combining Biomes</h3>
+    <img width="500px" src="./map11.png">
+    <a href="http://100.28.2.231:6001/">live demo</a>
+    <pre><code>biomes := []atlas.Biome{
+    biome2,
+    biome1,
+    biome3,
+    atlas.NewFill(DEEP_WATER),
+}
+
+// Infect
+decay := 1
+world := NewTemplateWorld(WORLD_SIZE)
+world.Infect(biomes, decay)
+</code></pre>
+        <br>
+        <br>
+        <h1>Other examples</h1>
+        Glaciers <a href="http://100.28.2.231:2000/">live demo</a>
+        <img width="1000px" src="./map12.png">
+        Dunes <a href="http://100.28.2.231:1000/">live demo</a>
+        <img width="1000px" src="./map13.png">
+    </div>
+</body>
+</html>
