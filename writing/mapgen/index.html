@@ -106,7 +106,7 @@ world.Infect(biomes, decay)
         <br>
         <h1>Visuals</h1>
         Drawing the above world on a canvas gives us this
-        <img width="500px" src="./map1.png">
+        <img width="500px" src="/writing/mapgen/map1.png">
         <br>
         <br>
         There are a handful of built in Modifiers which you can use in your biomes.
@@ -125,7 +125,7 @@ biomes := []atlas.Biome{
     biome2,
 }</code></pre>
                 </td> 
-                <td><img width="250px" src="./map2.png"></td>
+                <td><img width="250px" src="/writing/mapgen/map2.png"></td>
             </tr>
             <tr class="project">
                 <td>
@@ -138,7 +138,7 @@ biomes := []atlas.Biome{
     biome1,
 }</code></pre>
                 </td> 
-                <td><img width="250px" src="./map3.png"></td>
+                <td><img width="250px" src="/writing/mapgen/map3.png"></td>
             </tr>
             <tr class="project">
                 <td>
@@ -151,7 +151,7 @@ biomes := []atlas.Biome{
     biome1,
 }</code></pre>
                 </td> 
-                <td><img width="250px" src="./map4.png"></td>
+                <td><img width="250px" src="/writing/mapgen/map4.png"></td>
             </tr>
             <tr class="project">
                 <td>
@@ -164,7 +164,7 @@ biomes := []atlas.Biome{
     biome1,
 }</code></pre>
                 </td> 
-                <td><img width="250px" src="./map5.png"></td>
+                <td><img width="250px" src="/writing/mapgen/map5.png"></td>
             </tr>
             <tr class="project">
                 <td>
@@ -177,7 +177,7 @@ biomes := []atlas.Biome{
     biome1,
 }</code></pre>
                 </td> 
-                <td><img width="250px" src="./map6.png"></td>
+                <td><img width="250px" src="/writing/mapgen/map6.png"></td>
             </tr>
         </table>
         <br>
@@ -187,7 +187,7 @@ biomes := []atlas.Biome{
         <br>
         <h3>Biome 1</h3>
         To start, lets use the <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/modifier.go#L227">selective border</a> modifier. We break each cell into either grass or deep water, then apply a selective border of sand and shallow water to the grass.
-        <img width="500px" src="./map8.png">
+        <img width="500px" src="/writing/mapgen/map8.png">
         <a href="http://100.28.2.231:3000/">live demo</a>
         <pre><code>// Selective border's contract is: border value, which value to apply the border to
 // Selective border is a bit deceptive, as it replaces the tile instead of placing a border around the tile...
@@ -209,7 +209,7 @@ world.Infect(biomes, decay)
         <br>
         <h3>Biome 2</h3>
         Next, make bigger chunks of island with less water distance between them. Lets just fill each cell with grass, then border it in water and apply a border of sand to the grass.
-        <img width="500px" src="./map9.png">
+        <img width="500px" src="/writing/mapgen/map9.png">
         <a href="http://100.28.2.231:4000/">live demo</a>
         <pre><code>biome2 := atlas.NewBiome(
     atlas.NewFill(GRASS),
@@ -229,7 +229,7 @@ world.Infect(biomes, decay)
         <br>
         <h3>Biome 3</h3>
         Finally, we can make some more chaotic sandbars using the pattern modifier. We generate a pattern of grass and water, then apply selective borders same as before. We utilize the <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/modifier.go#L262">external selective border</a> this time. 
-        <img width="500px" src="./map10.png">
+        <img width="500px" src="/writing/mapgen/map10.png">
         <a href="http://100.28.2.231:5000/">live demo</a>
         <pre><code>patternSeed := 7
 biome3 := atlas.NewBiome(
@@ -247,7 +247,7 @@ world.Infect(biomes, decay)
     <br>
     <br>
     <h3>Combining Biomes</h3>
-    <img width="500px" src="./map11.png">
+    <img width="500px" src="/writing/mapgen/map11.png">
     <a href="http://100.28.2.231:6001/">live demo</a>
     <pre><code>biomes := []atlas.Biome{
     biome2,
@@ -265,9 +265,9 @@ world.Infect(biomes, decay)
         <br>
         <h1>Other examples</h1>
         Glaciers <a href="http://100.28.2.231:2000/">live demo</a>
-        <img width="1000px" src="./map12.png">
+        <img width="1000px" src="/writing/mapgen/map12.png">
         Dunes <a href="http://100.28.2.231:1000/">live demo</a>
-        <img width="1000px" src="./map13.png">
+        <img width="1000px" src="/writing/mapgen/map13.png">
     </div>
 </body>
 </html>
