@@ -45,6 +45,10 @@
         </ul>
         <br>
         Since maps are usually pretty big, I decided to use Go for this project. I was already hitting some issues with Javascript in my <a href="/gallery/terrain">terrain</a> project at ~1/10 the size I wanted to generate. The package itself does all the math delaunay stuff without external libraries (for practice), and lets users build their own maps using "building block" biomes.
+        <ul>
+            <li><a href="https://github.com/studio-imperium/atlas">Github</a></li>
+            <li><a href="https://pkg.go.dev/github.com/studio-imperium/atlas?utm_source=godoc">Go pkg</a></li>
+        </ul>
         <br>
         <br>
         <h1>Modifier</h1>
@@ -111,10 +115,10 @@ world.Infect(biomes, decay)
                 <td>
                     <pre><code>// Fill every tile in a cell with some value
 biome1 := atlas.NewBiome(
-    atlas.NewFill(1),
+    atlas.NewFill(WATER),
 )
 biome2 := atlas.NewBiome(
-    atlas.NewFill(1),
+    atlas.NewFill(DEEP_WATER),
 )
 biomes := []atlas.Biome{
     biome1,
@@ -208,9 +212,11 @@ world.Infect(biomes, decay)
         <img width="500px" src="./map9.png">
         <a href="http://100.28.2.231:4000/">live demo</a>
         <pre><code>biome2 := atlas.NewBiome(
-    atlas.NewFill(GRASS)
-    atlas.NewBorder(DEEP_WATER)
-    atlas.NewSelectiveBorder(SAND, GRASS)
+    atlas.NewFill(GRASS),
+    atlas.NewSelectiveBorder(WATER,GRASS),
+    atlas.NewSelectiveBorder(WATER,GRASS),
+    atlas.NewSelectiveBorder(SAND,GRASS),
+    atlas.NewBorder(DEEPWATER),
 )
 biomes := []atlas.Biome{biome2}
 
