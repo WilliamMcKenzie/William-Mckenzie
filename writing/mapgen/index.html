@@ -33,7 +33,7 @@
     </div>
     <div>
         <h1>Idea</h1>
-        After playing around with <a href="/gallery/voronoi">voronoi diagrams</a> and <a href="/gallery/delaunay">delaunay triangles</a> I had an idea for a new map system to implement in <a href="https://play.google.com/store/apps/details?id=com.williamqm.mmorelam&pli=1">Kingdom Crushers</a>. By nature of voronoi diagrams, you are given a large handful of cells which each have an origin point (somewhat) lying at the cells center. What if you made every single part of map generation take place around these cells? It would be a hell of a lot cleaner.
+        After playing around with <a href="/gallery/voronoi">voronoi diagrams</a> and <a href="/gallery/delaunay">delaunay triangles</a> I had an idea for a new map system. By nature of voronoi diagrams, you are given a large handful of cells which each have an origin point (somewhat) lying at the cells center. What if you made every single part of your world generation revolve around these cells?
         <br>
         <br>
         Things you could use cells for:
@@ -41,7 +41,7 @@
             <li><em>Chunks:</em> Send each player the cell they are in instead of breaking the world into chunks.</li>
             <li><em>Biomes:</em> Each cell can have a biome parameter.</li>
             <li><em>Terrain:</em> Using the biome, create unique terrain for each cell locally.</li>
-            <li><em>Enemies:</em> Also using the biome, populate each cell with enemies instead of randomly placing them.</li>
+            <li><em>Enemies:</em> Also using the biome, populate each cell with enemies at the cell's origin instead of randomly scattering them.</li>
         </ul>
         <br>
         Since maps are usually pretty big, I decided to use Go for this project. I was already hitting some issues with Javascript in my <a href="/gallery/terrain">terrain</a> project at ~1/10 the size I wanted to generate. The package itself does all the math delaunay stuff without external libraries (for practice), and lets users build their own maps using "building block" biomes.
