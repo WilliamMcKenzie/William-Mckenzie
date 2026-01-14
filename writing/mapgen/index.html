@@ -32,24 +32,46 @@
         </div>
     </div>
     <div>
+        <h1>Map generator</h1>
+        While migrating my MMO's backend from Godot to Golang, I have been enabled to do all sorts of crazy stuff thanks to Go's speed.
+        Revamping the map generation has been on the docket for ages, so over Christmas break I
+        left myself a package under the tree; a Go package.
+        <br>
+        <br>
+        <div>
+        <a href=".#examples">See examples</a>
+        <img width="200px" src="/writing/mapgen/map16.png">
+        </div>
+        <br>
+        <br>
+        <i>
+        As a quick note, if you are reading my code (specifically geometry/the triangle stuff) some of it isn't for generation
+        but rather for sake of optimization. Since each map is broken up into "cells" (I get into this later) by using some fancy math we
+        can find adjacent cells and cache them to make getting new cells for a player O(1).
+        I made some good visualizers for this in HTML Canvas:  <a href="/gallery/delaunay">delaunay triangles</a> and <a href="/gallery/voronoi">voronoi diagrams</a>
+        </i>
+        <br>
+        <br>
         <h1>Idea</h1>
-        After playing around with <a href="/gallery/voronoi">voronoi diagrams</a> and <a href="/gallery/delaunay">delaunay triangles</a> I had an idea for a new map system. By nature of voronoi diagrams, you are given a large handful of cells which each have an origin point (somewhat) lying at the cells center. What if you made every single part of your world generation revolve around these cells?
+        The vision was a tool which would let you build "systems" that can be used to generate maps.
+        It should be HIGHLY modular, so you can frankenstein together pieces of different maps easily. Most importantly though,
+        it should be original and do things other projects aren't.
+        <br>
+        I opted to break the world into cells, and then "populate" each cell with it's terrain independently from others.
         <br>
         <br>
-        Things you could use cells for:
+        Things you could use these cells for:
         <ul>
             <li><em>Chunks:</em> Send each player the cell they are in instead of breaking the world into chunks.</li>
             <li><em>Biomes:</em> Each cell can have a biome parameter.</li>
             <li><em>Terrain:</em> Using the biome, create unique terrain for each cell locally.</li>
             <li><em>Enemies:</em> Also using the biome, populate each cell with enemies at the cell's origin instead of randomly scattering them.</li>
         </ul>
-        <br>
-        Since maps are usually pretty big, I decided to use Go for this project. I was already hitting some issues with Javascript in my <a href="/gallery/terrain">terrain</a> project at ~1/10 the size I wanted to generate. The package itself does all the math delaunay stuff without external libraries (for practice), and lets users build their own maps using "building block" biomes.
+        Links:
         <ul>
             <li><a href="https://github.com/studio-imperium/atlas">Github</a></li>
             <li><a href="https://pkg.go.dev/github.com/studio-imperium/atlas?utm_source=godoc">Go pkg</a></li>
         </ul>
-        <br>
         <br>
         <h1>Modifier</h1>
         The highest level class is the <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/world.go#L8">world</a>, the only thing it has of importance is the size and it's <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/cell.go#L7">cells</a> in a list. Cells have their own class as well, and include a list of their <a href="https://github.com/studio-imperium/atlas/blob/v1.0.1/tile.go#L3">tiles</a>.
@@ -263,11 +285,18 @@ world.Infect(biomes, decay)
 </code></pre>
         <br>
         <br>
-        <h1>Other examples</h1>
+        <h1 id="examples">Other examples</h1>
         Glaciers <a href="http://100.28.2.231:2000/">live demo</a>
         <img width="1000px" src="/writing/mapgen/map12.png">
         Dunes <a href="http://100.28.2.231:1000/">live demo</a>
         <img width="1000px" src="/writing/mapgen/map13.png">
+        <img width="500px" src="/writing/mapgen/map14.png">
+        <img width="800px" src="/writing/mapgen/map17.png">
+        <img width="500px" src="/writing/mapgen/map16.png">
+        <img width="800px" src="/writing/mapgen/map19.png">
+        <img width="400px" src="/writing/mapgen/map15.png">
+        <img width="800px" src="/writing/mapgen/map20.png">
+        <img width="500px" src="/writing/mapgen/map18.png">
     </div>
 </body>
 </html>

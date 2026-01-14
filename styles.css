@@ -118,6 +118,13 @@ h2 {
   margin-right: auto;
 }
 
+h3 {
+  color: #444;
+  font-size: large;
+  font-family: Bold;
+  margin: 0;
+}
+
 main div {
   margin-bottom: 5rem;
 }
