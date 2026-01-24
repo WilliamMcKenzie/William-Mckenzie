@@ -1,0 +1,148 @@
+<html>
+	<head>
+		<title>polygonal.art</title>
+		<link rel="stylesheet" href="/styles.css">
+		<link rel="stylesheet" href="/gallery/styles.css">
+		<link rel="stylesheet" href="/gallery/terrain/terrain.css">
+		<link rel="stylesheet" href="/gallery/poly/resources/polygonal.css">
+		<style>
+			.container {
+				position: absolute;
+				top: 0;
+				left: 0;
+				z-index: 3;
+			}
+		</style>
+	</head>
+	<body style="margin: 0;">
+		<div class="container transparent">
+			<h3>
+				Euclidean canvas
+			</h3>
+			<button class="btn" onclick="window.location.href = '/gallery/terrain'">Next</button>
+			<button onclick="window.location.href = '/'" class="btn">
+				Home
+			</button>
+		</div>
+		 <div class="container transparent">
+			<full_break></full_break>
+			<button class="btn" onclick="reset()">Reset</button>
+			<button class="btn" onclick="generateBranch()">Generate branch</button>
+			<button class="btn" onclick="fractalize(this)">Fractal mode</button>
+			<table>
+				<tr>
+					<td>
+						<button onclick="select(3, this)" class="icon selected" style="background-image: url(resources/triangle.png)"></button>
+					</td>
+					<td>
+						<button onclick="select(4, this)" class="icon" style="background-image: url(resources/square.png)"></button>
+					</td>
+					<td>
+						<button onclick="select(5, this)" class="icon" style="background-image: url(resources/pentagon.png)"></button>
+					</td>
+				</tr>
+				<tr>
+					<td>
+						<button onclick="select(6, this)" class="icon" style="background-image: url(resources/hexagon.png)"></button>
+					</td>
+					<td>
+						<button onclick="select(7, this)" class="icon" style="background-image: url(resources/septagon.png)"></button>
+					</td>
+					<td>
+						<button onclick="select(8, this)" class="icon" style="background-image: url(resources/octagon.png)"></button>
+					</td>
+				</tr>
+			</table>
+			<input id="color" type="color" value="#3498db"/>
+			<button class="btn" onclick="download()">Download</button>
+		</div>
+		<canvas id="main" style="z-index: 2;"></canvas>
+		<canvas id="preview" style="opacity: 0.5;"></canvas>
+		<script>
+			let selectedShape = 3
+			function select(n, element) {
+				selectedShape = n
+				document.querySelector(".icon.selected").classList.remove("selected")
+				element.classList.add("selected")
+			}
+			
+			function download() {
+				var link = document.createElement('a');
+				link.download = 'polygonal.png';
+				link.href = canvas.toDataURL()
+				link.click();
+			}
+			
+			function reset() {
+				struct = null
+				ctx.clearRect(0,0,canvas.width, canvas.height)
+				preview.clearRect(0,0,canvas.width, canvas.height)
+			}
+			
+			function fractalize(element) {
+				fractalMode = !fractalMode
+				
+				if (fractalMode) {
+					element.classList.add("selected")
+				}
+				else {
+					element.classList.remove("selected")
+				}
+			}
+			
+			function generateBranch() {
+				struct = new Polygon(selectedShape, canvas.width/2, canvas.height/2)
+				
+				let points = []
+				let seed = Math.floor(Math.random() * 1000)
+				
+				for (let i = 0; i < 32; i++) {
+					points.push([
+						canvas.width * Math.random(),
+						canvas.height * Math.random(),
+					])
+				}
+				
+				for (let point of points) {
+					for (let i = 0; i < 5; i++) {
+						clickCanvas({
+							"offsetX" : point[0],
+							"offsetY" : point[1],
+						})
+					}
+				}
+				
+				ctx.clearRect(0,0,canvas.width, canvas.height)
+				buildPolygon(struct, ctx)
+			}
+			
+			function generateObject() {				
+				let shield = new Polygon(6, 400, 400, '#2c3e50', null)
+				let trim = shield.sides[0] = new Polygon(6, 0, 0, '#7f8c8d', shield)
+				let crest = trim.sides[0] = new Polygon(3, 0, 0, '#e74c3c', trim)
+
+				let mace = new Polygon(4, canvas.width/2, canvas.height/2, '#3e2723', null)
+				let head = mace.sides[2] = new Polygon(8, 0, 0, '#424242', mace)
+				head.sides[0] = new Polygon(3, 0, 0, '#616161', head)
+				head.sides[2] = new Polygon(3, 0, 0, '#616161', head)
+				head.sides[4] = new Polygon(3, 0, 0, '#616161', head)
+				head.sides[6] = new Polygon(3, 0, 0, '#616161', head)
+				
+				mace.sides[0] = new Polygon(4, 0, 0, '#3e2723', head)
+				mace.sides[0].sides[2] = new Polygon(4, 0, 0, '#3e2723', head)
+				mace.sides[0].sides[2].sides[2] = new Polygon(5, 0, 0, '#3e2723', head)
+				
+				
+				
+				let objects = [
+					mace,
+				]
+				
+				struct = objects[Math.floor(Math.random()) % objects.length]
+				ctx.clearRect(0,0,canvas.width, canvas.height)
+				buildPolygon(struct, ctx)
+			}
+		</script>
+		<script src="/gallery/poly/resources/polygonal.js"></script>
+	</body>
+</html>
