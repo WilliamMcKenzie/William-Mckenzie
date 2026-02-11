@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d")
 const previewCanvas = document.getElementById("preview")
 const preview = previewCanvas.getContext("2d")
 
-const scale = 64
+const scale = 32
 const pi = Math.PI
 const twopi = 2 * pi
 const color = document.getElementById("color")
