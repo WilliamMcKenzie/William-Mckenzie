@@ -15,6 +15,10 @@ let fill = [69, 142, 157]
 let angles = 7
 let offset = 0
 
+let frequency = 77
+let speedCoefficient = 1
+let stretchCoefficient = 1
+
 function randi() {
     return Math.floor(Math.random() * 999)
 }
@@ -33,6 +37,12 @@ function getOpacity(x, y, angle) {
     let angledY = Math.sin(angle) * y
     return Math.cos(angledX + angledY + offset) * 100
 }
+
+function renderPoint(x) {
+    let y = Math.sin((offset + x * frequency))
+    y *= stretchCoefficient
+    return y
+} 
 
 function getColor(x, y) {
     let opacity = 0
@@ -56,7 +66,7 @@ function animate() {
             ctx.fillRect(pixellate(x + canvas.width/2), pixellate(y + canvas.height/2), pixel, pixel)
         }
     }
-
+    
     requestAnimationFrame(animate)
 }
 animate()
