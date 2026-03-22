@@ -15,6 +15,7 @@ let fill = [69, 142, 157]
 let angles = 7
 let offset = 0
 let speed = 1
+let modifier = 0
 
 function randi() {
     return Math.floor(Math.random() * 999)
@@ -29,24 +30,18 @@ function pixellate(x) {
     return pixel * Math.round(x / pixel)
 }
 
-function getOpacity(x, y, angle) {
-    let angledX = Math.cos(angle) * x
-    let angledY = Math.sin(angle) * y
-    return 10 * (Math.cos(angledX + angledY + offset) - 0.1)
+function getOpacity(x, y, angle, bonus) {
+    let angledX = Math.cos(angle - 2*(modifier * bonus)) * x
+    let angledY = Math.sin(angle + 2*(modifier * bonus)) * y
+    return Math.cos(angledX + angledY + offset) * 10
 }
-
-function renderPoint(x) {
-    let y = Math.sin((offset + x * frequency))
-    y *= stretchCoefficient
-    return y
-} 
 
 function getColor(x, y) {
     let opacity = 0
     let angle = 2 * Math.PI
     let delta = angle / angles
     for (let i = 0; i < angles; i++) {
-        opacity += getOpacity(x, y, angle)
+        opacity += getOpacity(x, y, angle, (Math.PI/angles)*i)
         angle -= delta
     }
 
@@ -54,7 +49,7 @@ function getColor(x, y) {
 }
 
 function animate() {
-    offset += speed/32
+    offset += speed/16
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     for (let x = -canvas.width/2; x < canvas.width/2; x += pixel) {
@@ -81,14 +76,16 @@ for (url of urls) {
     url.addEventListener("mouseenter", (_) => {
         changebg(orangbg)
         fill = [242, 152, 119]
-        angles = 2 + 4 * Math.random()
-        speed += Math.pow(2*Math.random(), 3)
+        angles = 2 + Math.pow(3 * Math.random(), 4)
+        speed += Math.pow(2*Math.random(), 2)
         whichbg += 1
+        modifier = Math.pow(4 * Math.random(), 12)
     })
     url.addEventListener("mouseleave", (_) => {
         changebg(tealbg)
         fill = [69, 142, 157]
         speed = 1
         angles = 7
+        modifier = 0
     })
 }

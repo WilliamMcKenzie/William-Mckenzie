@@ -28,10 +28,10 @@ function pixellate(x) {
     return pixel * Math.round(x / pixel)
 }
 
-function getOpacity(x, y, angle) {
+function getOpacity(x, y, angle, bonus) {
     let angledX = Math.cos(angle) * x
     let angledY = Math.sin(angle) * y
-    return Math.cos(angledX + angledY + offset) * 100
+    return Math.cos(angledX + angledY + offset + bonus*100) * 10
 }
 
 function getColor(x, y) {
@@ -39,7 +39,7 @@ function getColor(x, y) {
     let angle = 2 * Math.PI
     let delta = angle / angles
     for (let i = 0; i < angles; i++) {
-        opacity += getOpacity(x, y, angle)
+        opacity += getOpacity(x, y, angle, (Math.PI/angles)*i)
         angle -= delta
     }
 
