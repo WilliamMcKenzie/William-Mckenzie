@@ -109,6 +109,11 @@ const u = {
 let mouseX = window.innerWidth / 2
 let mouseY = window.innerHeight / 2
 window.addEventListener("mousemove", (e) => {
+  // Drive the offset by how far the cursor moves: a still mouse leaves the
+  // pattern frozen, while motion increments the offset proportionally.
+  const dx = e.clientX - mouseX
+  const dy = e.clientY - mouseY
+  offset += Math.hypot(dx, dy) / 128
   mouseX = e.clientX
   mouseY = e.clientY
 })
@@ -126,7 +131,6 @@ function changebg(color) {
 }
 
 function animate() {
-  offset += speed / 16
   angles = 5 + (Math.cos(offset / 64) * 2)
 
   gl.uniform2f(u.res, canvas.width, canvas.height)
