@@ -19,10 +19,14 @@
                 height: 100vh;
                 object-fit: cover;
             }
+            .canvas {
+                position: fixed;
+            }
         </style>
     </head>
     <body>
         <img id="bg" alt="">
+        <canvas class="canvas"></canvas>
         <script>
             const bgs = [
                 "arcadia.jpg",
@@ -34,5 +38,6 @@
             const pick = bgs[Math.floor(Math.random() * bgs.length)]
             document.getElementById("bg").src = "/bgs/" + encodeURIComponent(pick)
         </script>
+        <script id="background-script" src="bg.js"></script>
     </body>
 </html>
