@@ -2,14 +2,20 @@ const html = document.querySelector("html")
 const canvas = document.querySelector("canvas")
 const gl = canvas.getContext("webgl", { premultipliedAlpha: false })
 
-const pixel = 7
+const pixel = 6
 let fill = [255, 255, 255]
 let angles = 11
 let offset = 0
-let speed = 0.3
+let speed = 2
 let modifier = 0
-let cap = 0.5
+let cap = 1
 let spotlightSize = 300 // radius of the cursor spotlight, in pixels
+let spotlightBands = 4 // discrete opacity steps in the fade; lower = harsher
+let blend = "soft-light" // how the white blends with the bg photo:
+//   "soft-light" = gentle lighten, keeps the photo's color/texture (softest)
+//   "overlay"    = same idea, punchier contrast
+//   "screen"     = pure add-light glow (pair with a grey fill, not pure white)
+//   "normal"     = the old opaque-white overlay
 
 const VERT = `
 attribute vec2 aPos;
@@ -31,6 +37,7 @@ uniform float uCap;
 uniform vec3 uFill;
 uniform vec2 uMouse;
 uniform float uRadius;
+uniform float uBands;
 
 const float PI = 3.141592653589793;
 const int MAX_ITERS = 64;
@@ -60,9 +67,16 @@ void main() {
   opacity = clamp(opacity, 0.0, uCap);
 
   // Highest opacity at the mouse cursor, fading out with distance.
-  // uMouse is in top-down screen coords, like py.
-  float dist = distance(vec2(gl_FragCoord.x, py), uMouse);
+  // uMouse is in top-down screen coords, like py. Snap the distance to each
+  // cell's center so every uPixel-sized block shares one falloff value: the
+  // fade steps block-by-block (pixel-art style) instead of smoothly per-pixel.
+  float cellX = (floor(gl_FragCoord.x / uPixel) + 0.5) * uPixel;
+  float cellY = (floor(py / uPixel) + 0.5) * uPixel;
+  float dist = distance(vec2(cellX, cellY), uMouse);
   float falloff = 1.0 - smoothstep(0.0, uRadius, dist);
+  // Snap the fade to a few discrete levels so it steps ring-by-ring instead of
+  // blending continuously: a harsher, posterized pixel-art transition.
+  falloff = ceil(falloff * uBands) / uBands;
   opacity *= falloff;
 
   gl_FragColor = vec4(uFill / 255.0, opacity);
@@ -103,6 +117,7 @@ const u = {
   fill: gl.getUniformLocation(program, "uFill"),
   mouse: gl.getUniformLocation(program, "uMouse"),
   radius: gl.getUniformLocation(program, "uRadius"),
+  bands: gl.getUniformLocation(program, "uBands"),
 }
 
 // Mouse position in top-down screen pixels; start at center.
@@ -113,7 +128,7 @@ window.addEventListener("mousemove", (e) => {
   // pattern frozen, while motion increments the offset proportionally.
   const dx = e.clientX - mouseX
   const dy = e.clientY - mouseY
-  offset += Math.hypot(dx, dy) / 128
+  offset += speed * Math.hypot(dx, dy) / 128
   mouseX = e.clientX
   mouseY = e.clientY
 })
@@ -122,6 +137,11 @@ window.addEventListener("mousemove", (e) => {
 // there's nothing to blend against inside the buffer. Output straight white +
 // alpha and let the browser composite the canvas over the <img> (the context
 // uses premultipliedAlpha: false, i.e. straight-alpha compositing).
+//
+// `blend` then controls how that composite mixes with the bg photo: instead of
+// painting opaque white, "soft-light"/"overlay"/"screen" make the white read as
+// light added to the photo, so highlights keep the underlying color/texture.
+canvas.style.mixBlendMode = blend
 
 resizeCanvas()
 
@@ -142,6 +162,7 @@ function animate() {
   gl.uniform3f(u.fill, fill[0], fill[1], fill[2])
   gl.uniform2f(u.mouse, mouseX, mouseY)
   gl.uniform1f(u.radius, spotlightSize)
+  gl.uniform1f(u.bands, spotlightBands)
 
   gl.clearColor(0, 0, 0, 0)
   gl.clear(gl.COLOR_BUFFER_BIT)
