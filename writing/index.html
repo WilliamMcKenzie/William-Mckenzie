@@ -1,88 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-        <title>gall</title>
-        <style>
-            html, body {
-                margin: 0;
-                padding: 0;
-                height: 100%;
-                color: white;
-            }
-            #bg {
-                position: fixed;
-                inset: 0;
-                width: 100vw;
-                height: 100vh;
-                object-fit: cover;
-            }
-            .canvas {
-                position: fixed;
-            }
-            .smiley {
-                width: 96px;
-                height: 96px;
-                z-index: 1;
-                position: absolute;
-                top: 0;
-                left: 0;
-            }
-            .links {
-                position: absolute;
-                top: 0;
-                right: 0;
-                z-index: 10;
-                padding: 1rem;
-                background-color: red;
-            }
-            .info {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                background-color: red;
-                border: 10px solid red;
-                z-index: 10;
-                padding: 1rem;
-                text-align: end;
-            }
-            a {
-                color: white;
-                padding-left: 0.5rem;
-            }
-        </style>
-    </head>
-    <body>
-        <img class="smiley" src="/smiley.png">
-        <div class="links">
-            <a class="spaced" href="/">home</a>
-            <a class="spaced" href="/gallery">gallery</a>
-            <a class="spaced" href="https://github.com/WilliamMcKenzie?tab=repositories">github</a>
-            <a class="spaced" href="https://www.linkedin.com/in/williamckenzie/">linkedin</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>William McKenzie</title>
+</head>
+<body>
+    <div class="nav-box">
+        <div class="nav">
+            <div>
+                <h2>William McKenzie</h2>
+                <links>
+                    <a class="spaced" href="/">About</a>
+                    <a class="spaced" href="/gallery">Gallery</a>
+                    <a class="spaced" href="/writing">Writing</a>
+                </links>
+            </div>
         </div>
-        <img id="bg" alt="">
-        <table class="info">
-            <tbody><tr class="project">
-                                <td><em>Dec 2025</em></td> 
-                                <td><a href="/writing/mapgen">Mapgen</a></td>
-                            </tr>
-                            <tr class="project">
-                                <td><em>Nov 2025</em></td> 
-                                <td><a href="/writing/canvasart">Canvasart</a></td>
-                            </tr></tbody>
-        </table>
-        <canvas class="canvas"></canvas>
-        <script>
-            const bgs = [
-                "youth_lg.jpg",
-            ]
-            const pick = bgs[Math.floor(Math.random() * bgs.length)]
-            document.getElementById("bg").src = "/bgs/" + encodeURIComponent(pick)
-        </script>
-        <script src="/bg.js">
-        </script>
-    </body>
+    </div>
+    <main>
+        <div>
+            <h1>Writing</h1>
+            <table>
+                <tr class="project">
+                    <td><em>Dec 2025</em></td> 
+                    <td><a href="/writing/mapgen">Mapgen</a></td>
+                </tr>
+                <tr class="project">
+                    <td><em>Nov 2025</em></td> 
+                    <td><a href="/writing/canvasart">Canvasart</a></td>
+                </tr>
+            </table>
+        </div>
+    </main>
+</body>
 </html>
