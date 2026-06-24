@@ -106,8 +106,8 @@ const u = {
 }
 
 // Mouse position in top-down screen pixels; start at center.
-let mouseX = -window.innerWidth
-let mouseY = -window.innerHeight
+let mouseX = window.innerWidth / 2
+let mouseY = window.innerHeight / 2
 window.addEventListener("mousemove", (e) => {
   // Drive the offset by how far the cursor moves: a still mouse leaves the
   // pattern frozen, while motion increments the offset proportionally.
