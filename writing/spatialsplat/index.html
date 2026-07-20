@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+    <title>William McKenzie</title>
+</head>
+<body>
+    <style>
+        .project {
+            display: flex;
+        }
+        .project pre {
+            margin: 0;
+        }
+        img {
+            display: block;
+        }
+    </style>
+    <div class="nav-box">
+        <div class="nav">
+            <div>
+                <h2>William McKenzie</h2>
+                <links>
+                    <a class="spaced" href="/">About</a>
+                    <a class="spaced" href="/gallery">Gallery</a>
+                    <a class="spaced" href="/writing">Writing</a>
+                </links>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h1>Spatial splat</h1>
+        Goal: generate splats which perfectly preserve relative position/scale of objects.
+        <br>
+        <br>
+        <div>
+        <a href="/writing/spatialsplat/index.html#examples">See before/after examples</a>
+        <img width="200px" src="/writing/spatialsplat/towertop2.png">
+        </div>
+        <br>
+        <br>
+        <h1>Idea</h1>
+        As cool as it is to generate a gaussian splat from an image, you sacrifice the reliable nature of regular gaussian splatting.
+        3/10 times my generation scenes would get rotated wrong, get the floor height ever so slightly off, or add curvature to my straight edges.
+        I tried 4 different ways to try and get the model to generalize the corrections. Some worked better then others.
+        <br>
+        <br>
+            The 4 ideas
+        <ul>
+            <li>LoRA (heavy) (using geometric primitives + gpt image)</li>
+            <li>LoRA (light) (using geometric primitives)</li>
+            <li>Controlnet (using geometric primitives)</li>
+            <li>Super low rank adaptation (attempting to isolate rotation/scale "parameters" in latent vector)</li>
+        </ul>
+        Links:
+        <ul>
+            <li><a href="https://github.com/studio-imperium/atlas">Github</a></li>
+            <li><a href="https://huggingface.co/spaces/WilliamQM/Spatial-Splat">Huggingface (all 4 at once)</a></li>
+        </ul>
+        <br>
+        <h1>Prelim</h1>
+        Triposplat is weird to train on top of, as there were 2 phases in it's training.
+        <ul>
+            <li>3d model -> latent -> gaussians, which turned the original dataset of 3d models into a fixed sized latent, and learns to decode it imto gaussians. This is the internal language, where it learned to represent 3d models in a fixed size vector.</li>
+            <li>image -> latent. Predicting these latent tokens from images to give the internal representation of the 3d model.</li>
+        </ul>
+        All I care about is phase 2. Phase 1 is developing the internal representation of 3d models in latent form. Phase 2 however is more of a "world model", hallucinating up with this 3d representation from a single image.
+        <br>
+        I don't have the resources to retrain phase 1 and teach a new language, but IF the latent contains the nessecary parameters to rotate/scale/position the world, using a LoRA should be enough.
+        <br>
+        <br>
+        <h1>LoRA (heavy)</h1>
+        Curating training data for this LoRA was a 4 step process,
+        <table>
+            <tr>
+                <td>
+                    Build a scene of geometric primitives
+                </td> 
+                <td><img width="300px" src="/writing/spatialsplat/cube1.png"></td>
+            </tr>
+            <tr>
+                <td>
+                    Then get a real-life scene interpretation of our primitives with an image model
+                </td> 
+                <td><img width="300px" src="/writing/spatialsplat/cube2.png"></td>
+            </tr>
+            <tr>
+                <td>
+                    Now by simply feeding this interpretation into triposplat, we can check the baseline accuracy compared to the original primitives (red lines are primitives):
+                </td> 
+                <td><img width="300px" src="/writing/spatialsplat/cube3.png"></td>
+            </tr>
+            <tr>
+                <td>
+                    We optimize for correct depth from 6 key angles, comparing the splat with the original primitives.
+                    <br>
+                    <br>
+                    The result is a spatially-accurate splat (80% accuracy -> 96% accuracy):
+                </td> 
+                <td><img width="300px" src="/writing/spatialsplat/cube4.png"></td>
+            </tr>
+        </table>
+        Even after only ~50 examples the LoRA quickly discovered a way to correct bad rotations, check out this tree scene. Left is original, right is my LoRA. This splat was not part of training, it has never seen it before.
+        <table>
+            <tr><td>Triposplat</td><td>Spatialsplat LoRA</td></tr>
+            <tr><td><img width="200px" height="200px" src="/writing/spatialsplat/tree1.png"></td>
+                <td><img width="200px" height="200px" src="/writing/spatialsplat/tree2.png"></td></tr>
+            <tr><td><img width="200px" height="200px" src="/writing/spatialsplat/tree3.png"></td>
+                <td><img width="200px" height="200px" src="/writing/spatialsplat/tree4.png"></td></tr>
+        </table>
+        Though this is evidence that my training method does generalize to any splat, the issue is that splat quality goes down the more corrections are done. Ideally, we could reinforce consistent visuals while still correcting the geometry.
+        <br>
+        <br>
+        <h1>LoRA (light)</h1>
+        CUt out GPT image step, reinforce that the splat stay rgb-consistent with the original primitive scene from all 6 angles as part of loss calculation.
+        <br>
+        <br>
+        <h1>Controlnet</h1>
+        Train a controlnet which takes in the primitive scene to apply slight adjustments each step.
+        <br>
+        <br>
+        <h1>SLoRA</h1>
+        Attempt to find rotation/scale/positioning parameters within the latent
+        <br>
+        <br>
+        <br>
+        <h1 id="examples">Examples</h1>
+        <table>
+            <tr><td>Before</td><td>After</td></tr>
+            <tr><td><img width="200px" src="/writing/spatialsplat/droid1.png"></td>
+                <td><img width="200px" src="/writing/spatialsplat/droid2.png"></td></tr>
+            <tr><td><img width="200px" src="/writing/spatialsplat/bench2.png"></td>
+                <td><img width="200px" src="/writing/spatialsplat/bench1.png"></td></tr>
+            <tr><td><img width="200px" height="200px" src="/writing/spatialsplat/desert1.png"></td>
+                <td><img width="200px" height="200px" src="/writing/spatialsplat/desert2.png"></td></tr>
+            <tr><td><img width="200px" height="200px" src="/writing/spatialsplat/towertop1.png"></td>
+                <td><img width="200px" height="200px" src="/writing/spatialsplat/towertop2.png"></td></tr>
+            <tr><td><img width="200px" height="200px" src="/writing/spatialsplat/towerside1.png"></td>
+                <td><img width="200px" height="200px" src="/writing/spatialsplat/towerside2.png"></td></tr>
+            <tr><td><img width="200px" height="200px" src="/writing/spatialsplat/tree1.png"></td>
+                <td><img width="200px" height="200px" src="/writing/spatialsplat/tree2.png"></td></tr>
+            <tr><td><img width="200px" height="200px" src="/writing/spatialsplat/tree3.png"></td>
+                <td><img width="200px" height="200px" src="/writing/spatialsplat/tree4.png"></td></tr>
+        </table>
+    </div>
+</body>
+</html>
